@@ -4,6 +4,9 @@ let gBArrayHeight = 20;
 let gBArrayWidth = 12;
 let startX = 4;
 let stastY = 0;
+let score = 0;
+let level = 1;
+let winOrLose = "Playing";
 let coordinateArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
 );
@@ -26,6 +29,9 @@ let tetrominoColors = [
 ];
 let curTetrominoColor;
 let gameBoardArray = [...Array(gBArrayHeight)].map((e) =>
+  Array(gBArrayWidth).fill(0)
+);
+let stoppedShapeArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
 );
 
@@ -89,14 +95,18 @@ function DrawTetromino() {
 function HandleKeyPress(key) {
   if (key.keyCode === 65) {
     direction = DIRECTON.LEFT;
-    DeleteTetromino();
-    startX--;
-    DrawTetromino();
+    if (!HittingTheWall()) {
+      DeleteTetromino();
+      startX--;
+      DrawTetromino();
+    }
   } else if (key.keyCode === 68) {
     direction = DIRECTON.RIGHT;
-    DeleteTetromino();
-    startX++;
-    DrawTetromino();
+    if (!HittingTheWall()) {
+      DeleteTetromino();
+      startX++;
+      DrawTetromino();
+    }
   } else if (key.keyCode === 83) {
     direction = DIRECTON.DOWN;
     DeleteTetromino();
@@ -118,17 +128,64 @@ function DeleteTetromino() {
 }
 
 function CreateTetrominos() {
-    tetrominos.push([[1, 0], [0, 1], [1, 1], [2, 1]]);
-    tetrominos.push([[0, 0], [1, 0], [2, 0], [3, 0]]);
-    tetrominos.push([[0, 0], [0, 1], [1, 1], [2, 1]]);
-    tetrominos.push([[0, 0], [1, 0], [0, 1], [1, 1]]);
-    tetrominos.push([[1, 0], [2, 0], [0, 1], [1, 1]]);
-    tetrominos.push([[0, 0], [1, 0], [1, 1], [2, 1]]);
-    tetrominos.push([[2, 0], [0, 1], [1, 1], [2, 1]]);
+  tetrominos.push([
+    [1, 0],
+    [0, 1],
+    [1, 1],
+    [2, 1],
+  ]);
+  tetrominos.push([
+    [0, 0],
+    [1, 0],
+    [2, 0],
+    [3, 0],
+  ]);
+  tetrominos.push([
+    [0, 0],
+    [0, 1],
+    [1, 1],
+    [2, 1],
+  ]);
+  tetrominos.push([
+    [0, 0],
+    [1, 0],
+    [0, 1],
+    [1, 1],
+  ]);
+  tetrominos.push([
+    [1, 0],
+    [2, 0],
+    [0, 1],
+    [1, 1],
+  ]);
+  tetrominos.push([
+    [0, 0],
+    [1, 0],
+    [1, 1],
+    [2, 1],
+  ]);
+  tetrominos.push([
+    [2, 0],
+    [0, 1],
+    [1, 1],
+    [2, 1],
+  ]);
 }
 
 function CreateTetromino() {
-    let randomTetromino = Math.floor(Math.random() * tetrominos.length);
-    curTetromino = tetrominos[randomTetromino];
-    curTetrominoColor = tetrominoColors[randomTetromino];
+  let randomTetromino = Math.floor(Math.random() * tetrominos.length);
+  curTetromino = tetrominos[randomTetromino];
+  curTetrominoColor = tetrominoColors[randomTetromino];
+}
+
+function HittingTheWall() {
+  for (let i = 0; i < curTetromino.length; i++) {
+    let newX = curTetromino[i][0] + startX;
+    if (newX <= 0 && direction === DIRECTON.LEFT) {
+      return true;
+    } else if (newX >= 11 && direction === DIRECTON.RIGHT) {
+      return true;
+    }
+  }
+  return false;
 }
