@@ -73,6 +73,10 @@ function SetupCanvas() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.strokeStyle = "black";
   ctx.strokeRect(8, 8, 280, 462);
+
+  tetrisLogo = new Image(161, 54);
+  tetrisLogo.onload = DrawTetrisLogo;
+  tet
   document.addEventListener("keydown", HandleKeyPress);
   CreateTetrominos();
   CreateTetromino();
