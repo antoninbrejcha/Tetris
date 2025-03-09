@@ -17,13 +17,13 @@ let curTetromino = [
 
 let tetrominos = [];
 let tetrominoColors = [
-  "purple",
-  "cyan",
-  "blue",
-  "yellow",
-  "orange",
-  "green",
-  "red",
+  "#7B2CBF",
+  "#48CAE4",
+  "#1749E4",
+  "#FFEA00",
+  "#E85D04",
+  "#9EF01A",
+  "#D00000",
 ];
 let curTetrominoColor;
 
@@ -65,26 +65,17 @@ function CreateCoordArray() {
 function SetupCanvas() {
   canvas = document.getElementById("my-canvas");
   ctx = canvas.getContext("2d");
-  /*let img = document.getElementById("console");
-  canvas.width = img.width;
-  canvas.height = img.height;
-  ctx.scale(0.5, 0.5);
-  ctx.drawImage(img, 0, 0);
-  ctx.strokeRect(0, 0, img.width, img.height);
-  ctx.beginPath();
-  ctx.arc(canvas.width / 2, canvas.height / 2 - 200, 50, 0, Math.PI * 2);
-  ctx.fillStyle = "red";
-  ctx.fill();*/
 
   canvas.width = 1000;
   canvas.height = 1000;
-  roundedRect(ctx, 0, 0, canvas.width, canvas.height, 75, "#ffd60a");
-  displayBorder(ctx, 85, 50, 840, 600, 100, 80, 5, "black");
+
+  DrawRoundedRect(ctx, 0, 0, canvas.width, canvas.height, 75, "#ffd60a");
+  DrawDisplayBorder(ctx, 85, 50, 840, 600, 100, 80, 5, "black");
   let displayStartX = 250;
   let displayStartY = 60;
   let displayWidth = 500;
   let displayHeight = 500;
-  display(
+  DrawDisplay(
     ctx,
     displayStartX,
     displayStartY,
@@ -93,63 +84,67 @@ function SetupCanvas() {
     "white"
   );
 
-  function roundedRect(ctx, x, y, width, height, radius, color) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.arcTo(x + width, y, x + width, y + radius, radius);
-    ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
-    ctx.arcTo(x, y + height, x, y + height - radius, radius);
-    ctx.arcTo(x, y, x + radius, y, radius);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  function displayBorder(
-    ctx,
-    x,
-    y,
-    width,
-    height,
-    offsetWidth,
-    offsetHeight,
-    radius,
-    color
-  ) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.lineTo(x + width - radius, y);
-    ctx.arcTo(x + width, y, x + width, y + radius, radius);
-    ctx.lineTo(x + width, y + height - radius);
-    ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
-    ctx.lineTo(x + width / 2, y + height);
-    ctx.lineTo(x + width / 2 - offsetWidth, y + height - offsetHeight);
-    ctx.lineTo(x + radius, y + height - offsetHeight);
-    ctx.arcTo(
-      x,
-      y + height - offsetHeight,
-      x,
-      y + height - offsetHeight - radius,
-      radius
-    );
-    ctx.lineTo(x, y + radius);
-    ctx.arcTo(x, y, x + radius, y, radius);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  function display(ctx, x, y, width, height, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, width, height);
-  }
+  ctx.strokeStyle = "black";
+  ctx.strokeRect(displayStartX + 8, displayStartY + 8, 280, 462);
 
   document.addEventListener("keydown", HandleKeyPress);
+
   CreateTetrominos();
   CreateTetromino();
 
   CreateCoordArray();
   DrawTetromino();
+}
+
+function DrawRoundedRect(ctx, x, y, width, height, radius, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + radius, radius);
+  ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+  ctx.arcTo(x, y + height, x, y + height - radius, radius);
+  ctx.arcTo(x, y, x + radius, y, radius);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function DrawDisplayBorder(
+  ctx,
+  x,
+  y,
+  width,
+  height,
+  offsetWidth,
+  offsetHeight,
+  radius,
+  color
+) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.arcTo(x + width, y, x + width, y + radius, radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+  ctx.lineTo(x + width / 2, y + height);
+  ctx.lineTo(x + width / 2 - offsetWidth, y + height - offsetHeight);
+  ctx.lineTo(x + radius, y + height - offsetHeight);
+  ctx.arcTo(
+    x,
+    y + height - offsetHeight,
+    x,
+    y + height - offsetHeight - radius,
+    radius
+  );
+  ctx.lineTo(x, y + radius);
+  ctx.arcTo(x, y, x + radius, y, radius);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function DrawDisplay(ctx, x, y, width, height, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, width, height);
 }
 
 function DrawTetromino() {
@@ -170,5 +165,86 @@ function HandleKeyPress(key) {
     DeleteTetromino();
     startX--;
     DrawTetromino();
+  } else if (key.keyCode === 68) {
+    direction = DIRECTION.RIGHT;
+    DeleteTetromino();
+    startX++;
+    DrawTetromino();
+  } else if (key.keyCode === 83) {
+    direction = DIRECTION.DOWN;
+    DeleteTetromino();
+    startY++;
+    DrawTetromino();
   }
+}
+
+function DeleteTetromino() {
+  for (let i = 0; i < curTetromino.length; i++) {
+    let x = curTetromino[i][0] + startX;
+    let y = curTetromino[i][1] + startY;
+    gameBoardArray[x][y] = 0;
+    let coorX = coordinateArray[x][y].x;
+    let coorY = coordinateArray[x][y].y;
+    ctx.fillStyle = "white";
+    ctx.fillRect(coorX, coorY, 21, 21);
+  }
+}
+
+function CreateTetrominos() {
+  //T
+  tetrominos.push([
+    [1, 0],
+    [0, 1],
+    [1, 1],
+    [2, 1],
+  ]);
+  //I
+  tetrominos.push([
+    [0, 0],
+    [1, 0],
+    [2, 0],
+    [3, 0],
+  ]);
+  //J
+  tetrominos.push([
+    [0, 0],
+    [0, 1],
+    [1, 1],
+    [2, 1],
+  ]);
+  //[]
+  tetrominos.push([
+    [0, 0],
+    [1, 0],
+    [0, 1],
+    [1, 1],
+  ]);
+  //L
+  tetrominos.push([
+    [2, 0],
+    [0, 1],
+    [1, 1],
+    [2, 1],
+  ]);
+  //S
+  tetrominos.push([
+    [1, 0],
+    [2, 0],
+    [0, 1],
+    [1, 1],
+  ]);
+  //Z
+  tetrominos.push([
+    [0, 0],
+    [1, 0],
+    [1, 1],
+    [2, 1],
+  ]);
+}
+
+function CreateTetromino() {
+  let randomTetromino = Math.floor(Math.random() * tetrominos.length);
+  curTetromino = tetrominos[randomTetromino];
+  curTetrominoColor =
+    tetrominoColors[Math.floor(Math.random() * tetrominoColors.length)];
 }
