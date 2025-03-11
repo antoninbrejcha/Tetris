@@ -310,43 +310,41 @@ function CheckForVerticalCollision() {
     if (direction === DIRECTION.DOWN) {
       y++;
     }
-    if (gameBoardArray[y+1][x] === 1) {
-      if (typeof stoppedShapeArray[y+1][x] === "string") {
+    if (gameBoardArray[y + 1][x] === 1) {
+      if (typeof stoppedShapeArray[y + 1][x] === "string") {
         DeleteTetromino();
         startY++;
         DrawTetromino();
         collison = true;
         break;
       }
-      if (y >= 20) {
-        collison = true;
-        break;
-      }
+      if (y >= 20) collison = true;
+      break;
     }
+  }
 
-    if (collison) {
-      if (startY <= 2) {
-        lose = true;
-        alert("Game Over");
-      } else {
-        for (let i = 0; i < tetrominoCopy.length; i++) {
-          let square = tetrominoCopy[i];
-          let x = square[0] + startX;
-          let y = square[1] + startY;
-          stoppedShapeArray[y][x] = curTetrominoColor;
-        }
-        CheckForCompletedRows();
-        CreateTetromino();
-        direction = DIRECTION.IDLE;
-        startX = 4;
-        startY = 0;
-        DrawTetromino();
+  if (collison) {
+    if (startY <= 2) {
+      lose = true;
+      alert("Game Over");
+    } else {
+      for (let i = 0; i < tetrominoCopy.length; i++) {
+        let square = tetrominoCopy[i];
+        let x = square[0] + startX;
+        let y = square[1] + startY;
+        stoppedShapeArray[y][x] = curTetrominoColor;
       }
+      CheckForCompletedRows();
+      CreateTetromino();
+      direction = DIRECTION.IDLE;
+      startX = 4;
+      startY = 0;
+      DrawTetromino();
     }
   }
 }
 
-function CheckForHorizontalCollision(){
+function CheckForHorizontalCollision() {
   let tetrominoCopy = curTetromino;
   let collison = false;
   for (let i = 0; i < tetrominoCopy.length; i++) {
@@ -360,7 +358,7 @@ function CheckForHorizontalCollision(){
     }
     let stoppedShapeVal = stoppedShapeArray[y][x];
     if (typeof stoppedShapeVal === "string") {
-      collison = true
+      collison = true;
       break;
     }
   }
@@ -426,7 +424,7 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
   }
 }
 
-function RotateTetromino(){
+function RotateTetromino() {
   let newRotation = new Array();
   let tetrominoCopy = curTetromino;
   let curTetrominoBU;
@@ -434,7 +432,7 @@ function RotateTetromino(){
     curTetrominoBU = [...curTetromino];
     let x = tetrominoCopy[0][i];
     let y = tetrominoCopy[1][i];
-    let newX = (GetLastSquareX() - y);
+    let newX = GetLastSquareX() - y;
     let newY = x;
     newRotation.push([newX, newY]);
   }
@@ -451,7 +449,7 @@ function RotateTetromino(){
   }
 }
 
-function GetLastSquareX(){
+function GetLastSquareX() {
   let lastX = 0;
   for (let i = 0; i < curTetromino.length; i++) {
     let square = curTetromino[i];
