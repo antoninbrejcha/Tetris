@@ -1,9 +1,21 @@
 let canvas;
 let ctx;
-let gBArrayHeight = 20;
-let gBArrayWidth = 12;
+
+let gBArrayHeight = 20; //pocet radku
+let gBArrayWidth = 12; //pocet sloupcu
 let startX = 4;
 let startY = 0;
+
+let score = 0;
+let level = 1;
+let lose = false;
+
+/*//koridnace display
+let displayStartX = 250;
+let displayStartY = 60;
+let displayWidth = 500;
+let displayHeight = 500;*/
+
 let coordinateArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
 );
@@ -31,6 +43,10 @@ let gameBoardArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
 );
 
+let stoppedShapeArray = [...Array(gBArrayHeight)].map((e) =>
+  Array(gBArrayWidth).fill(0)
+);
+
 let DIRECTION = {
   IDLE: 0,
   DOWN: 1,
@@ -43,38 +59,34 @@ class Coordinates {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    CreateCoordArray();
   }
 }
 
 document.addEventListener("DOMContentLoaded", SetupCanvas);
 
 function CreateCoordArray() {
-  let i = 0,
-    j = 0;
-  for (let y = 9; y <= 446; y += 23) {
-    for (let x = 11; x <= 264; x += 23) {
+  for (let i = 0; i < gBArrayHeight; i++) {
+    for (let j = 0; j < gBArrayWidth; j++) {
+      let x = 11 + j * 23;
+      let y = 9 + i * 23;
       coordinateArray[i][j] = new Coordinates(x, y);
-      i++;
     }
-    j++;
-    i = 0;
   }
 }
 
 function SetupCanvas() {
   canvas = document.getElementById("my-canvas");
   ctx = canvas.getContext("2d");
-
-  canvas.width = 1000;
+  canvas.width = 936;
+  canvas.height = 956;
+  ctx.scale(2, 2);
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  /*canvas.width = 1000;
   canvas.height = 1000;
 
   DrawRoundedRect(ctx, 0, 0, canvas.width, canvas.height, 75, "#ffd60a");
   DrawDisplayBorder(ctx, 85, 50, 840, 600, 100, 80, 5, "black");
-  let displayStartX = 250;
-  let displayStartY = 60;
-  let displayWidth = 500;
-  let displayHeight = 500;
   DrawDisplay(
     ctx,
     displayStartX,
@@ -82,21 +94,20 @@ function SetupCanvas() {
     displayWidth,
     displayHeight,
     "white"
-  );
+  );*/
 
   ctx.strokeStyle = "black";
-  ctx.strokeRect(displayStartX + 8, displayStartY + 8, 280, 462);
+  ctx.strokeRect(8, 8, 280, 462);
 
   document.addEventListener("keydown", HandleKeyPress);
 
   CreateTetrominos();
   CreateTetromino();
-
   CreateCoordArray();
   DrawTetromino();
 }
 
-function DrawRoundedRect(ctx, x, y, width, height, radius, color) {
+/*function DrawRoundedRect(ctx, x, y, width, height, radius, color) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -145,33 +156,47 @@ function DrawDisplayBorder(
 function DrawDisplay(ctx, x, y, width, height, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, width, height);
-}
+}*/
 
 function DrawTetromino() {
   for (let i = 0; i < curTetromino.length; i++) {
     let x = curTetromino[i][0] + startX;
     let y = curTetromino[i][1] + startY;
-    gameBoardArray[x][y] = 1;
-    let coorX = coordinateArray[x][y].x;
-    let coorY = coordinateArray[x][y].y;
-    ctx.fillStyle = curTetrominoColor;
-    ctx.fillRect(coorX, coorY, 21, 21);
+    if (y >= 0 && y < gBArrayHeight && x >= 0 && x < gBArrayWidth) {
+      gameBoardArray[y][x] = 1;
+      let coorX = coordinateArray[y][x].x;
+      let coorY = coordinateArray[y][x].y;
+      ctx.fillStyle = curTetrominoColor;
+      ctx.fillRect(coorX, coorY, 21, 21);
+    }
   }
 }
 
 function HandleKeyPress(key) {
-  if (key.keyCode === 65) {
-    direction = DIRECTION.LEFT;
-    DeleteTetromino();
-    startX--;
-    DrawTetromino();
-  } else if (key.keyCode === 68) {
-    direction = DIRECTION.RIGHT;
-    DeleteTetromino();
-    startX++;
-    DrawTetromino();
-  } else if (key.keyCode === 83) {
-    direction = DIRECTION.DOWN;
+  if (lose === false) {
+    if (key.keyCode === 65) { //A
+      direction = DIRECTION.LEFT;
+      if (!HittingTheWall() && !CheckForHorizontalCollision()) {
+        DeleteTetromino();
+        startX--;
+        DrawTetromino();
+      }
+    } else if (key.keyCode === 68) { //D
+      direction = DIRECTION.RIGHT;
+      if (!HittingTheWall() && !CheckForHorizontalCollision()) {
+        DeleteTetromino();
+        startX++;
+        DrawTetromino();
+      }
+    } else if (key.keyCode === 83) { //S
+      MoveTetrominoDown();
+    }
+  }
+}
+
+function MoveTetrominoDown(){
+  direction = DIRECTION.DOWN;
+  if (!CheckForVerticalCollision()) {
     DeleteTetromino();
     startY++;
     DrawTetromino();
@@ -182,11 +207,13 @@ function DeleteTetromino() {
   for (let i = 0; i < curTetromino.length; i++) {
     let x = curTetromino[i][0] + startX;
     let y = curTetromino[i][1] + startY;
-    gameBoardArray[x][y] = 0;
-    let coorX = coordinateArray[x][y].x;
-    let coorY = coordinateArray[x][y].y;
-    ctx.fillStyle = "white";
-    ctx.fillRect(coorX, coorY, 21, 21);
+    if (y >= 0 && y < gBArrayHeight && x >= 0 && x < gBArrayWidth) {
+      gameBoardArray[y][x] = 0;
+      let coorX = coordinateArray[y][x].x;
+      let coorY = coordinateArray[y][x].y;
+      ctx.fillStyle = "white";
+      ctx.fillRect(coorX, coorY, 21, 21);
+    }
   }
 }
 
@@ -247,4 +274,20 @@ function CreateTetromino() {
   curTetromino = tetrominos[randomTetromino];
   curTetrominoColor =
     tetrominoColors[Math.floor(Math.random() * tetrominoColors.length)];
+}
+
+function HittingTheWall() {
+  for (let i = 0; i < curTetromino.length; i++) {
+    let newX = curTetromino[i][0] + startX;
+    if (newX <= 0 && direction === DIRECTION.LEFT) {
+      return true;
+    } else if (newX >= 11 && direction === DIRECTION.RIGHT) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function CheckForHorizontalCollision() {
+  let tetrominoCopy = curTetromino;
 }
