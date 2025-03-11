@@ -310,8 +310,8 @@ function CheckForVerticalCollision() {
     if (direction === DIRECTION.DOWN) {
       y++;
     }
-    if (gameBoardArray[x][y + 1] === 1) {
-      if (typeof stoppedShapeArray[x][y + 1] === "string") {
+    if (gameBoardArray[y+1][x] === 1) {
+      if (typeof stoppedShapeArray[y+1][x] === "string") {
         DeleteTetromino();
         startY++;
         DrawTetromino();
@@ -333,7 +333,7 @@ function CheckForVerticalCollision() {
           let square = tetrominoCopy[i];
           let x = square[0] + startX;
           let y = square[1] + startY;
-          stoppedShapeArray[x][y] = curTetrominoColor;
+          stoppedShapeArray[y][x] = curTetrominoColor;
         }
         CheckForCompletedRows();
         CreateTetromino();
@@ -358,7 +358,7 @@ function CheckForHorizontalCollision(){
     } else if (direction === DIRECTION.RIGHT) {
       x++;
     }
-    let stoppedShapeVal = stoppedShapeArray[x][y];
+    let stoppedShapeVal = stoppedShapeArray[y][x];
     if (typeof stoppedShapeVal === "string") {
       collison = true
       break;
@@ -385,8 +385,8 @@ function CheckForCompletedRows() {
       }
       rowsToDelete++;
       for (let i = 0; i < gBArrayWidth; i++) {
-        stoppedShapeArray[i][y] = 0;
-        gameBoardArray[i][y] = 0;
+        stoppedShapeArray[y][i] = 0;
+        gameBoardArray[y][i] = 0;
         let coorX = coordinateArray[y][i].x;
         let coorY = coordinateArray[y][i].y;
         ctx.fillStyle = "white";
@@ -404,19 +404,19 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
   for (let i = startOfDeletion - 1; i >= 0; i--) {
     for (let x = 0; x < gBArrayWidth; x++) {
       let y2 = i + rowsToDelete;
-      let square = stoppedShapeArray[x][i];
-      let square2 = stoppedShapeArray[x][y2];
+      let square = stoppedShapeArray[i][x];
+      let square2 = stoppedShapeArray[y2][x];
       if (typeof square === "string") {
         square2 = square;
-        gameBoardArray[x][y2] = 1;
-        stoppedShapeArray[x][y2] = square;
+        gameBoardArray[y2][x] = 1;
+        stoppedShapeArray[y2][x] = square;
         let coorX = coordinateArray[y2][x].x;
         let coorY = coordinateArray[y2][x].y;
         ctx.fillStyle = square2;
         ctx.fillRect(coorX, coorY, 21, 21);
         square = 0;
-        gameBoardArray[x][i] = 0;
-        stoppedShapeArray[x][i] = 0;
+        gameBoardArray[i][x] = 0;
+        stoppedShapeArray[i][x] = 0;
         coorX = coordinateArray[i][x].x;
         coorY = coordinateArray[i][x].y;
         ctx.fillStyle = "white";
@@ -432,8 +432,8 @@ function RotateTetromino(){
   let curTetrominoBU;
   for (let i = 0; i < tetrominoCopy.length; i++) {
     curTetrominoBU = [...curTetromino];
-    let x = tetrominoCopy[i][0];
-    let y = tetrominoCopy[i][1];
+    let x = tetrominoCopy[0][i];
+    let y = tetrominoCopy[1][i];
     let newX = (GetLastSquareX() - y);
     let newY = x;
     newRotation.push([newX, newY]);
