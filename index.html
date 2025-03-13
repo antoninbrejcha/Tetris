@@ -6,10 +6,51 @@
     <title>Document</title>
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="index.js"></script>
-    <!--<script src="Tetris.js"></script>-->
+    <!--<script src="index.js"></script>-->
+    <script src="Tetris.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <canvas id="my-canvas"></canvas>
+    <section class="gameboy">
+      <div class="power-switch">
+        <p>Off</p>
+        <p>On</p>
+      </div>
+      <div class="screen-container">
+        <canvas id="my-canvas"></canvas>
+      </div>
+      <p class="nintendo">Nintendo</p>
+      <p class="game-boy">Game Boy</p>
+      <div class="dpad">
+        <div class="dpad-button dpad-up"></div>
+        <div class="dpad-button dpad-right"></div>
+        <div class="dpad-button dpad-down"></div>
+        <div class="dpad-button dpad-left"></div>
+        <div class="dpad-button dpad-center"></div>
+      </div>
+      <div class="action-buttons rotation">
+        <div class="ab-buttons">
+          <div class="button">
+            <div class="button-label">B</div>
+          </div>
+          <div class="button">
+            <div class="button-label">A</div>
+          </div>
+        </div>
+      </div>
+      <div class="option-buttons">
+        <div class="option-button rotation">
+          <p class="option-label">Select</p>
+        </div>
+        <div class="option-button rotation">
+          <p class="option-label">Start</p>
+        </div>
+      </div>
+    </section>
   </body>
 </html>

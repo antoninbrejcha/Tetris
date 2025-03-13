@@ -310,6 +310,11 @@ function CheckForVerticalCollision() {
     if (direction === DIRECTION.DOWN) {
       y++;
     }
+    // Check if the tetromino has reached the bottom of the board
+    if (y + 1 >= gBArrayHeight) {
+      collison = true;
+      break;
+    }
     if (gameBoardArray[y + 1][x] === 1) {
       if (typeof stoppedShapeArray[y + 1][x] === "string") {
         DeleteTetromino();
@@ -318,7 +323,6 @@ function CheckForVerticalCollision() {
         collison = true;
         break;
       }
-      if (y >= 20) collison = true;
       break;
     }
   }
