@@ -25,13 +25,13 @@ let curTetromino = [
 let tetrominos = [];
 // 3. The tetromino array with the colors matched to the tetrominos array
 let tetrominoColors = [
-  "purple",
-  "cyan",
-  "blue",
-  "yellow",
-  "orange",
-  "green",
-  "red",
+  "#7B2CBF",
+  "#48CAE4",
+  "#1749E4",
+  "#FFEA00",
+  "#E85D04",
+  "#9EF01A",
+  "#D00000",
 ];
 // 3. Holds current Tetromino color
 let curTetrominoColor;
@@ -88,14 +88,9 @@ function SetupCanvas() {
   canvas.width = 936;
   canvas.height = 956;
 
-  // Double the size of elements to fit the screen
   ctx.scale(2, 2);
-
-  // Draw Canvas background
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw gameboard rectangle
   ctx.strokeStyle = "black";
   ctx.strokeRect(8, 8, 280, 462);
 
@@ -268,49 +263,49 @@ function DeleteTetromino() {
 // 3. Generate random Tetrominos with color
 // We'll define every index where there is a colored block
 function CreateTetrominos() {
-  // Push T
+  //T
   tetrominos.push([
     [1, 0],
     [0, 1],
     [1, 1],
     [2, 1],
   ]);
-  // Push I
+  //I
   tetrominos.push([
     [0, 0],
     [1, 0],
     [2, 0],
     [3, 0],
   ]);
-  // Push J
+  //J
   tetrominos.push([
     [0, 0],
     [0, 1],
     [1, 1],
     [2, 1],
   ]);
-  // Push Square
+  //[]
   tetrominos.push([
     [0, 0],
     [1, 0],
     [0, 1],
     [1, 1],
   ]);
-  // Push L
+  //L
   tetrominos.push([
     [2, 0],
     [0, 1],
     [1, 1],
     [2, 1],
   ]);
-  // Push S
+  //S
   tetrominos.push([
     [1, 0],
     [2, 0],
     [0, 1],
     [1, 1],
   ]);
-  // Push Z
+  //Z
   tetrominos.push([
     [0, 0],
     [1, 0],
@@ -320,11 +315,8 @@ function CreateTetrominos() {
 }
 
 function CreateTetromino() {
-  // Get a random tetromino index
   let randomTetromino = Math.floor(Math.random() * tetrominos.length);
-  // Set the one to draw
   curTetromino = tetrominos[randomTetromino];
-  // Get the color for it
   curTetrominoColor = tetrominoColors[randomTetromino];
 }
 
