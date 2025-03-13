@@ -533,7 +533,7 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
   }
 }
 
-// 9. Rotate the Tetromino
+/*// 9. Rotate the Tetromino
 // ***** SLIDE *****
 function RotateTetromino() {
   let newRotation = new Array();
@@ -570,6 +570,90 @@ function RotateTetromino() {
       DrawTetromino();
     }
   }
+}*/
+
+function RotateTetromino() {
+  let newRotation = [];
+  let curTetrominoBU = [...curTetromino]; // Backup of the current Tetromino
+
+  // Calculate the new rotation
+  for (let i = 0; i < curTetromino.length; i++) {
+    let x = curTetromino[i][0];
+    let y = curTetromino[i][1];
+    let newX = GetLastSquareX() - y;
+    let newY = x;
+    newRotation.push([newX, newY]);
+  }
+
+  // Save the original position
+  let originalX = startX;
+  let originalY = startY;
+
+  // Try the rotation in the original position
+  if (IsValidPosition(newRotation, startX, startY)) {
+    // The rotation is valid at the current position
+    DeleteTetromino();
+    curTetromino = newRotation;
+    DrawTetromino();
+    return;
+  }
+
+  // Try wall kicks (adjusting position to make rotation valid)
+  // First try moving left
+  for (let wallKickX = 1; wallKickX <= 2; wallKickX++) {
+    if (IsValidPosition(newRotation, startX - wallKickX, startY)) {
+      DeleteTetromino();
+      startX -= wallKickX;
+      curTetromino = newRotation;
+      DrawTetromino();
+      return;
+    }
+  }
+
+  // Try moving right
+  for (let wallKickX = 1; wallKickX <= 2; wallKickX++) {
+    if (IsValidPosition(newRotation, startX + wallKickX, startY)) {
+      DeleteTetromino();
+      startX += wallKickX;
+      curTetromino = newRotation;
+      DrawTetromino();
+      return;
+    }
+  }
+
+  // Try moving up (for when Tetromino is at bottom)
+  if (IsValidPosition(newRotation, startX, startY - 1)) {
+    DeleteTetromino();
+    startY -= 1;
+    curTetromino = newRotation;
+    DrawTetromino();
+    return;
+  }
+
+  // If all wall kicks failed, keep the original Tetromino
+  startX = originalX;
+  startY = originalY;
+  // Rotation stays as is - no change
+}
+
+// Helper function to check if a position is valid
+function IsValidPosition(tetromino, posX, posY) {
+  for (let i = 0; i < tetromino.length; i++) {
+    let newX = tetromino[i][0] + posX;
+    let newY = tetromino[i][1] + posY;
+
+    // Check if it would go outside the game board
+    if (newX < 0 || newX >= gBArrayWidth || newY < 0 || newY >= gBArrayHeight) {
+      return false;
+    }
+
+    // Check if it would overlap with any stopped shapes
+    if (typeof stoppedShapeArray[newX][newY] === "string") {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 // Gets the x value for the last square in the Tetromino
