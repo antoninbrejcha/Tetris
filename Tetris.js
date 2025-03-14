@@ -7,6 +7,7 @@ let startY = 0; // Starting Y position for Tetromino
 let score = 0; // Tracks the score
 let level = 1; // Tracks current level
 let winOrLose = "Playing";
+let lastColorIndex = -1;
 // Used as a look up table where each value in the array
 // contains the x & y position we can use to draw the
 // box on the canvas
@@ -325,9 +326,21 @@ function CreateTetrominos() {
 }
 
 function CreateTetromino() {
+  // Get random tetromino shape
   let randomTetromino = Math.floor(Math.random() * tetrominos.length);
   curTetromino = tetrominos[randomTetromino];
-  curTetrominoColor = tetrominoColors[randomTetromino];
+
+  // Get random color that's different from the last one
+  let randomColor;
+  do {
+    randomColor = Math.floor(Math.random() * tetrominoColors.length);
+  } while (randomColor === lastColorIndex && tetrominoColors.length > 1);
+
+  // Save this color index for next time
+  lastColorIndex = randomColor;
+
+  // Apply the color
+  curTetrominoColor = tetrominoColors[randomColor];
 }
 
 // 4. Check if the Tetromino hits the wall
