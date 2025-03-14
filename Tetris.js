@@ -182,6 +182,16 @@ function DrawTetromino() {
     // table provides
     ctx.fillStyle = curTetrominoColor;
     ctx.fillRect(coorX, coorY, 21, 21);
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.moveTo(coorX + 3, coorY + 3);
+    ctx.lineTo(coorX + 10, coorY + 3);
+    ctx.lineTo(coorX + 10, coorY + 6);
+    ctx.lineTo(coorX + 6, coorY + 6);
+    ctx.lineTo(coorX + 6, coorY + 10);
+    ctx.lineTo(coorX + 3, coorY + 10);
+    ctx.lineTo(coorX + 3, coorY + 3);
+    ctx.fill();
   }
 }
 
@@ -520,6 +530,16 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
         let coorY = coordinateArray[x][y2].y;
         ctx.fillStyle = nextSquare;
         ctx.fillRect(coorX, coorY, 21, 21);
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.moveTo(coorX + 3, coorY + 3);
+        ctx.lineTo(coorX + 10, coorY + 3);
+        ctx.lineTo(coorX + 10, coorY + 6);
+        ctx.lineTo(coorX + 6, coorY + 6);
+        ctx.lineTo(coorX + 6, coorY + 10);
+        ctx.lineTo(coorX + 3, coorY + 10);
+        ctx.lineTo(coorX + 3, coorY + 3);
+        ctx.fill();
 
         square = 0;
         gameBoardArray[x][i] = 0; // Clear the spot in GBA
