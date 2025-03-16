@@ -392,9 +392,8 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
 
         let coorX = coordinateArray[x][y2].x;
         let coorY = coordinateArray[x][y2].y;
-        ctx.fillStyle = square;
         
-        ColoringTetromino(coorX, coorY);
+        ColoringTetromino(coorX, coorY, square);
 
         square = 0;
         gameBoardArray[x][i] = 0;
@@ -557,11 +556,12 @@ function darkenHexColor(hexColor, percentage) {
     b.toString(16).padStart(2, '0');
 }
 
-function ColoringTetromino(coorX, coorY){
-  ctx.fillStyle = curTetrominoColor;
+function ColoringTetromino(coorX, coorY, color){
+  let tetroColor = color || curTetrominoColor;
+  ctx.fillStyle = tetroColor;
   ctx.fillRect(coorX, coorY, 21, 21);
   
-  ctx.fillStyle = darkenHexColor(curTetrominoColor, 10);
+  ctx.fillStyle = darkenHexColor(tetroColor, 10);
   ctx.fillRect(coorX + 3, coorY + 3, 15, 15);
 
   ctx.fillStyle = "white";
