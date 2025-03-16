@@ -136,18 +136,7 @@ function DrawTetromino() {
     let coorX = coordinateArray[x][y].x;
     let coorY = coordinateArray[x][y].y;
 
-    ctx.fillStyle = curTetrominoColor;
-    ctx.fillRect(coorX, coorY, 21, 21);
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    ctx.moveTo(coorX + 3, coorY + 3);
-    ctx.lineTo(coorX + 10, coorY + 3);
-    ctx.lineTo(coorX + 10, coorY + 6);
-    ctx.lineTo(coorX + 6, coorY + 6);
-    ctx.lineTo(coorX + 6, coorY + 10);
-    ctx.lineTo(coorX + 3, coorY + 10);
-    ctx.lineTo(coorX + 3, coorY + 3);
-    ctx.fill();
+    ColoringTetromino(coorX, coorY);
   }
 }
 
@@ -263,6 +252,7 @@ function CreateTetrominos() {
 
 function CreateTetromino() {
   let randomTetromino = Math.floor(Math.random() * tetrominos.length);
+  console.log("Selected tetromino index:", randomTetromino);
   curTetromino = tetrominos[randomTetromino];
 
   let randomColor;
@@ -402,18 +392,9 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
 
         let coorX = coordinateArray[x][y2].x;
         let coorY = coordinateArray[x][y2].y;
-        ctx.fillStyle = nextSquare;
-        ctx.fillRect(coorX, coorY, 21, 21);
-        ctx.fillStyle = "white";
-        ctx.beginPath();
-        ctx.moveTo(coorX + 3, coorY + 3);
-        ctx.lineTo(coorX + 10, coorY + 3);
-        ctx.lineTo(coorX + 10, coorY + 6);
-        ctx.lineTo(coorX + 6, coorY + 6);
-        ctx.lineTo(coorX + 6, coorY + 10);
-        ctx.lineTo(coorX + 3, coorY + 10);
-        ctx.lineTo(coorX + 3, coorY + 3);
-        ctx.fill();
+        ctx.fillStyle = square;
+        
+        ColoringTetromino(coorX, coorY);
 
         square = 0;
         gameBoardArray[x][i] = 0;
@@ -500,7 +481,11 @@ function GetLastSquareX() {
 
 function DropTetromino() {
   let dropDistancePossible = 0;
-  dropLoop: for (let potentialDrop = 1; potentialDrop < gBArrayHeight; potentialDrop++) {
+  dropLoop: for (
+    let potentialDrop = 1;
+    potentialDrop < gBArrayHeight;
+    potentialDrop++
+  ) {
     for (let i = 0; i < curTetromino.length; i++) {
       let x = curTetromino[i][0] + startX;
       let y = curTetromino[i][1] + startY + potentialDrop;
@@ -549,4 +534,44 @@ function PlaceTetromino() {
       break;
     }
   }
+}
+
+function darkenHexColor(hexColor, percentage) {
+  hexColor = hexColor.replace('#', '');
+  
+  let r = parseInt(hexColor.substr(0, 2), 16);
+  let g = parseInt(hexColor.substr(2, 2), 16);
+  let b = parseInt(hexColor.substr(4, 2), 16);
+  
+  r = Math.floor(r * (1 - percentage / 100));
+  g = Math.floor(g * (1 - percentage / 100));
+  b = Math.floor(b * (1 - percentage / 100));
+  
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  
+  return '#' + 
+    r.toString(16).padStart(2, '0') + 
+    g.toString(16).padStart(2, '0') + 
+    b.toString(16).padStart(2, '0');
+}
+
+function ColoringTetromino(coorX, coorY){
+  ctx.fillStyle = curTetrominoColor;
+  ctx.fillRect(coorX, coorY, 21, 21);
+  
+  ctx.fillStyle = darkenHexColor(curTetrominoColor, 10);
+  ctx.fillRect(coorX + 3, coorY + 3, 15, 15);
+
+  ctx.fillStyle = "white";
+  ctx.beginPath();
+  ctx.moveTo(coorX + 3, coorY + 3);
+  ctx.lineTo(coorX + 10, coorY + 3);
+  ctx.lineTo(coorX + 10, coorY + 6);
+  ctx.lineTo(coorX + 6, coorY + 6);
+  ctx.lineTo(coorX + 6, coorY + 10);
+  ctx.lineTo(coorX + 3, coorY + 10);
+  ctx.lineTo(coorX + 3, coorY + 3);
+  ctx.fill();
 }
