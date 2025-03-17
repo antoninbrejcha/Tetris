@@ -8,6 +8,9 @@ let score = 0;
 let level = 1;
 let winOrLose = "Playing";
 let lastColorIndex = -1;
+let gameSpeed = 1000;
+let gameInterval;
+let totalRowsDeleted = 0;
 
 let coordinateArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
@@ -122,6 +125,7 @@ function SetupCanvas() {
   CreateTetromino();
   CreateCoordArray();
   DrawTetromino();
+  SetGameInterval();
 }
 
 function DrawTetrisLogo() {
@@ -178,12 +182,6 @@ function MoveTetrominoDown() {
     DrawTetromino();
   }
 }
-
-window.setInterval(function () {
-  if (winOrLose != "Game Over") {
-    MoveTetrominoDown();
-  }
-}, 1000);
 
 function DeleteTetromino() {
   for (let i = 0; i < curTetromino.length; i++) {
@@ -369,12 +367,15 @@ function CheckForCompletedRows() {
     }
   }
   if (rowsToDelete > 0) {
+    totalRowsDeleted += rowsToDelete;
+    console.log("Total rows deleted: " + totalRowsDeleted);
     score += 10;
     ctx.fillStyle = "white";
     ctx.fillRect(310, 109, 140, 19);
     ctx.fillStyle = "black";
     ctx.fillText(score.toString(), 310, 127);
     MoveAllRowsDown(rowsToDelete, startOfDeletion);
+    UpdateGameSpeed();
   }
 }
 
@@ -561,7 +562,7 @@ function ColoringTetromino(coorX, coorY, color){
   ctx.fillStyle = tetroColor;
   ctx.fillRect(coorX, coorY, 21, 21);
   
-  ctx.fillStyle = darkenHexColor(tetroColor, 10);
+  ctx.fillStyle = darkenHexColor(tetroColor, 15);
   ctx.fillRect(coorX + 3, coorY + 3, 15, 15);
 
   ctx.fillStyle = "white";
@@ -574,4 +575,29 @@ function ColoringTetromino(coorX, coorY, color){
   ctx.lineTo(coorX + 3, coorY + 10);
   ctx.lineTo(coorX + 3, coorY + 3);
   ctx.fill();
+}
+
+function SetGameInterval() {
+  if (gameInterval) {
+    clearInterval(gameInterval);
+  }
+  gameInterval = window.setInterval(function () {
+    if (winOrLose != "Game Over") {
+      MoveTetrominoDown();
+    }
+  }, gameSpeed);
+}
+
+function UpdateGameSpeed() {
+  let newLevel = Math.floor(score / 10) + 1;
+  if (newLevel > level) {
+    level = newLevel;
+    gameSpeed = Math.max(200, 1000 - (level - 1) * 50);
+    console.log("Level: " + level + ", Speed: " + gameSpeed + "ms");
+    ctx.fillStyle = "white";
+    ctx.fillRect(310, 171, 140, 24);
+    ctx.fillStyle = "black";
+    ctx.fillText(level.toString(), 310, 190);
+    SetGameInterval();
+  }
 }
