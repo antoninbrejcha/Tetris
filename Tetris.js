@@ -11,8 +11,6 @@ let lastColorIndex = -1;
 let gameSpeed = 1000;
 let gameInterval;
 let totalRowsDeleted = 0;
-let ghostY = 0;
-let lastGhostPositions = [];
 
 let coordinateArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
@@ -127,8 +125,6 @@ function SetupCanvas() {
   CreateTetromino();
   CreateCoordArray();
   DrawTetromino();
-  UpdateGhostPosition();
-  DrawGhostTetromino();
   SetGameInterval();
 }
 
@@ -154,21 +150,15 @@ function HandleKeyPress(key) {
       direction = DIRECTION.LEFT;
       if (!HittingTheWall() && !CheckForHorizontalCollision()) {
         DeleteTetromino();
-        DeleteGhostTetromino();
         startX--;
         DrawTetromino();
-        UpdateGhostPosition();
-        DrawGhostTetromino();
       }
     } else if (key.keyCode === 68) {
       direction = DIRECTION.RIGHT;
       if (!HittingTheWall() && !CheckForHorizontalCollision()) {
         DeleteTetromino();
-        DeleteGhostTetromino();
         startX++;
         DrawTetromino();
-        UpdateGhostPosition();
-        DrawGhostTetromino();
       }
     } else if (key.keyCode === 83) {
       MoveTetrominoDown();
@@ -325,8 +315,6 @@ function CheckForVerticalCollison() {
       startX = 4;
       startY = 0;
       DrawTetromino();
-      UpdateGhostPosition();
-      DrawGhostTetromino();
     }
   }
 }
@@ -434,11 +422,8 @@ function RotateTetromino() {
   let originalY = startY;
   if (IsValidPosition(newRotation, startX, startY)) {
     DeleteTetromino();
-    DeleteGhostTetromino();
     curTetromino = newRotation;
     DrawTetromino();
-    UpdateGhostPosition();
-    DrawGhostTetromino();
     return;
   }
   for (let wallKickX = 1; wallKickX <= 2; wallKickX++) {
@@ -517,7 +502,6 @@ function DropTetromino() {
   }
   if (dropDistancePossible > 0) {
     DeleteTetromino();
-    DeleteGhostTetromino();
     startY += dropDistancePossible;
     DrawTetromino();
     PlaceTetromino();
@@ -537,8 +521,6 @@ function PlaceTetromino() {
   startX = 4;
   startY = 0;
   DrawTetromino();
-  UpdateGhostPosition();
-  DrawGhostTetromino();
   for (let i = 0; i < curTetromino.length; i++) {
     let square = curTetromino[i];
     let x = square[0] + startX;
@@ -620,98 +602,4 @@ function UpdateGameSpeed() {
     ctx.fillText(level.toString(), 310, 190);
     SetGameInterval();
   }
-}
-
-function UpdateGhostPosition() {
-  // Calculate the drop distance
-  let dropDistance = 0;
-  while (IsValidGhostPosition(dropDistance + 1)) {
-    dropDistance++;
-  }
-  ghostY = startY + dropDistance;
-}
-
-function IsValidGhostPosition(dropDistance) {
-  for (let i = 0; i < curTetromino.length; i++) {
-    let x = curTetromino[i][0] + startX;
-    let y = curTetromino[i][1] + startY + dropDistance;
-
-    // Check if position is out of bounds
-    if (y >= gBArrayHeight) {
-      return false;
-    }
-
-    // Check if position collides with stopped pieces
-    if (typeof stoppedShapeArray[x][y] === "string") {
-      return false;
-    }
-  }
-  return true;
-}
-
-function DrawGhostTetromino() {
-  // Don't draw the ghost if it would be at the same position as the actual tetromino
-  if (ghostY === startY) {
-    lastGhostPositions = [];
-    return;
-  }
-
-  // Store new ghost positions
-  let newGhostPositions = [];
-
-  for (let i = 0; i < curTetromino.length; i++) {
-    let x = curTetromino[i][0] + startX;
-    let y = curTetromino[i][1] + ghostY;
-
-    // Ensure we're not drawing outside of the game area
-    if (y >= 0 && y < gBArrayHeight) {
-      // Skip if this position has a placed tetromino
-      if (typeof stoppedShapeArray[x][y] === "string") {
-        continue;
-      }
-
-      newGhostPositions.push({ x, y });
-
-      let coorX = coordinateArray[x][y].x;
-      let coorY = coordinateArray[x][y].y;
-
-      // Add a semi-transparent fill
-      ctx.fillStyle = curTetrominoColor + "33"; // 33 is 20% opacity in hex
-      ctx.fillRect(coorX, coorY, 21, 21);
-
-      // Draw a ghost outline
-      ctx.strokeStyle = curTetrominoColor;
-      ctx.lineWidth = 1;
-      ctx.strokeRect(coorX, coorY, 21, 21);
-    }
-  }
-
-  // Update stored ghost positions
-  lastGhostPositions = newGhostPositions;
-}
-
-function DeleteGhostTetromino() {
-  // Clear each stored ghost position
-  for (let pos of lastGhostPositions) {
-    let x = pos.x;
-    let y = pos.y;
-
-    // Make sure position is valid
-    if (x >= 0 && x < gBArrayWidth && y >= 0 && y < gBArrayHeight) {
-      let coorX = coordinateArray[x][y].x;
-      let coorY = coordinateArray[x][y].y;
-
-      // Clear the position
-      ctx.fillStyle = "white";
-      ctx.fillRect(coorX, coorY, 21, 21);
-
-      // Redraw any placed tetrominos that might be underneath
-      if (typeof stoppedShapeArray[x][y] === "string") {
-        ColoringTetromino(coorX, coorY, stoppedShapeArray[x][y]);
-      }
-    }
-  }
-
-  // Clear the stored positions
-  lastGhostPositions = [];
 }
