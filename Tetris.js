@@ -133,6 +133,7 @@ function DrawTetrisLogo() {
 }
 
 function DrawTetromino() {
+  highlightTetrominoColumns();
   for (let i = 0; i < curTetromino.length; i++) {
     let x = curTetromino[i][0] + startX;
     let y = curTetromino[i][1] + startY;
@@ -184,6 +185,7 @@ function MoveTetrominoDown() {
 }
 
 function DeleteTetromino() {
+  ClearingGameBoard();
   for (let i = 0; i < curTetromino.length; i++) {
     let x = curTetromino[i][0] + startX;
     let y = curTetromino[i][1] + startY;
@@ -536,7 +538,7 @@ function PlaceTetromino() {
   }
 }
 
-function darkenHexColor(hexColor, percentage) {
+function modifyHexColor(hexColor, percentage, opacity) {
   hexColor = hexColor.replace("#", "");
 
   let r = parseInt(hexColor.substr(0, 2), 16);
@@ -551,12 +553,9 @@ function darkenHexColor(hexColor, percentage) {
   g = Math.max(0, Math.min(255, g));
   b = Math.max(0, Math.min(255, b));
 
-  return (
-    "#" +
-    r.toString(16).padStart(2, "0") +
-    g.toString(16).padStart(2, "0") +
-    b.toString(16).padStart(2, "0")
-  );
+  let alphaValue = opacity / 100;
+
+  return `rgba(${r}, ${g}, ${b}, ${alphaValue})`;
 }
 
 function ColoringTetromino(coorX, coorY, color) {
@@ -564,7 +563,7 @@ function ColoringTetromino(coorX, coorY, color) {
   ctx.fillStyle = tetroColor;
   ctx.fillRect(coorX, coorY, 21, 21);
 
-  ctx.fillStyle = darkenHexColor(tetroColor, 15);
+  ctx.fillStyle = modifyHexColor(tetroColor, 15, 100);
   ctx.fillRect(coorX + 3, coorY + 3, 15, 15);
 
   ctx.fillStyle = "white";
@@ -601,5 +600,57 @@ function UpdateGameSpeed() {
     ctx.fillStyle = "black";
     ctx.fillText(level.toString(), 310, 190);
     SetGameInterval();
+  }
+}
+
+function highlightTetrominoColumns() {
+  let columnsToHighlight = {};
+  for (let i = 0; i < curTetromino.length; i++) {
+    let x = curTetromino[i][0] + startX;
+    let y = curTetromino[i][1] + startY;
+    if (columnsToHighlight[x] === undefined || y > columnsToHighlight[x]) {
+      columnsToHighlight[x] = y;
+    }
+  }
+
+  ctx.fillStyle = modifyHexColor(curTetrominoColor, 25, 15);
+  for (let col in columnsToHighlight) {
+    col = parseInt(col);
+    let lowestTetrominoY = columnsToHighlight[col];
+    let highlightStartY = coordinateArray[col][lowestTetrominoY].y + 21;
+    let highlightX = coordinateArray[col][0].x;
+    let nextPlacedPieceY = gBArrayHeight;
+    for (let y = lowestTetrominoY + 1; y < gBArrayHeight; y++) {
+      if (typeof stoppedShapeArray[col][y] === "string") {
+        nextPlacedPieceY = y;
+        break;
+      }
+    }
+    let highlightEndY;
+    if (nextPlacedPieceY < gBArrayHeight) {
+      highlightEndY = coordinateArray[col][nextPlacedPieceY].y;
+    } else {
+      highlightEndY = coordinateArray[col][gBArrayHeight - 1].y + 21;
+    }
+    let highlightHeight = highlightEndY - highlightStartY;
+    if (highlightHeight > 0) {
+      ctx.fillRect(highlightX, highlightStartY, 21, highlightHeight);
+    }
+  }
+}
+
+function ClearingGameBoard() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(8, 8, 280, 462);
+  ctx.strokeStyle = "black";
+  ctx.strokeRect(8, 8, 280, 462);
+  for (let x = 0; x < gBArrayWidth; x++) {
+    for (let y = 0; y < gBArrayHeight; y++) {
+      if (typeof stoppedShapeArray[x][y] === "string") {
+        let coorX = coordinateArray[x][y].x;
+        let coorY = coordinateArray[x][y].y;
+        ColoringTetromino(coorX, coorY, stoppedShapeArray[x][y]);
+      }
+    }
   }
 }
