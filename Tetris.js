@@ -83,9 +83,89 @@ function SetupCanvas() {
   canvas.height = 956;
 
   ctx.scale(2, 2);
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   DrawGameBoard();
+
+  ctx.lineWidth = 24;
+  ctx.strokeStyle = "#815AC0";
+  ctx.strokeRect(84, -8, 310, 492);
+
+  ctx.beginPath();
+  ctx.moveTo(94, 0);
+  ctx.lineTo(94, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#6247AA";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(66, 0);
+  ctx.lineTo(66, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#815AC0";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(74, 0);
+  ctx.lineTo(74, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#c19ee0";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(78, 0);
+  ctx.lineTo(78, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#A06CD5";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(384, 0);
+  ctx.lineTo(384, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#c19ee0";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(388, 0);
+  ctx.lineTo(388, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#A06CD5";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(404, 0);
+  ctx.lineTo(404, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#6247AA";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(412, 0);
+  ctx.lineTo(412, 478);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#815AC0";
+  ctx.stroke();
+
+  let gradient = ctx.createLinearGradient(0, 0, 0, 250);
+  gradient.addColorStop(0, "#B185DB");
+  gradient.addColorStop(0.1, "#6247AA");
+  gradient.addColorStop(0.2, "#B185DB");
+  gradient.addColorStop(0.3, "#6247AA");
+  gradient.addColorStop(0.4, "#B185DB");
+  gradient.addColorStop(0.5, "#6247AA");
+  gradient.addColorStop(0.6, "#B185DB");
+  gradient.addColorStop(0.7, "#6247AA");
+  gradient.addColorStop(0.8, "#B185DB");
+  gradient.addColorStop(0.9, "#6247AA");
+  gradient.addColorStop(1, "#B185DB");
+
+  ctx.fillStyle = gradient;
+  drawVerticalStackedText(ctx, "LEVEL", 20, 20, 50, "Bytesized", 0.8);
+
+  document.fonts.ready.then(() => {
+    drawWithGoogleFont();
+  });
 
   document.addEventListener("keydown", HandleKeyPress);
 
@@ -96,8 +176,31 @@ function SetupCanvas() {
   SetGameInterval();
 }
 
-function DrawTetrisLogo() {
-  ctx.drawImage(tetrisLogo, 300, 8, 161, 54);
+function drawVerticalStackedText(
+  ctx,
+  text,
+  x,
+  y,
+  fontSize,
+  fontFamily,
+  lineHeight
+) {
+  ctx.font = `${fontSize}px ${fontFamily}`;
+  let characters = text.split("");
+  currentY = y;
+  for (let i = 0; i < characters.length; i++) {
+    let char = characters[i];
+    ctx.fillText(char, x, currentY);
+    currentY += fontSize * lineHeight;
+  }
+}
+
+function DrawGameBoard() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(99, 8, 280, 462);
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 4;
+  ctx.strokeRect(98, 6, 282, 464);
 }
 
 function DrawTetromino() {
@@ -250,7 +353,7 @@ function CheckForVerticalCollison() {
     let square = tetrominoCopy[i];
     let x = square[0] + startX;
     let y = square[1] + startY;
-    
+
     if (direction === DIRECTION.DOWN) {
       y++;
     }
@@ -274,7 +377,7 @@ function CheckForVerticalCollison() {
     }
     if (!lockDelayActive) {
       lockDelayActive = true;
-      lockDelayTimer = setTimeout(function() {
+      lockDelayTimer = setTimeout(function () {
         if (lockDelayActive) {
           for (let i = 0; i < curTetromino.length; i++) {
             let square = curTetromino[i];
@@ -298,7 +401,7 @@ function CheckForVerticalCollison() {
       lockDelayActive = false;
     }
   }
-  
+
   return collision;
 }
 
@@ -480,7 +583,7 @@ function DropTetromino() {
     }
     dropDistancePossible = potentialDrop;
   }
-  
+
   if (dropDistancePossible > 0) {
     if (lockDelayActive) {
       clearTimeout(lockDelayTimer);
@@ -628,10 +731,7 @@ function highlightTetrominoColumns() {
 }
 
 function ClearingGameBoard() {
-  ctx.fillStyle = "white";
-  ctx.fillRect(99, 8, 280, 462);
-  ctx.strokeStyle = "black";
-  ctx.strokeRect(99, 8, 280, 462);
+  DrawGameBoard();
   for (let x = 0; x < gBArrayWidth; x++) {
     for (let y = 0; y < gBArrayHeight; y++) {
       if (typeof stoppedShapeArray[x][y] === "string") {
@@ -641,11 +741,4 @@ function ClearingGameBoard() {
       }
     }
   }
-}
-
-function DrawGameBoard() {
-  ctx.fillStyle = "white";
-  ctx.fillRect(99, 8, 280, 462);
-  ctx.strokeStyle = "black";
-  ctx.strokeRect(99, 8, 280, 462);
 }
