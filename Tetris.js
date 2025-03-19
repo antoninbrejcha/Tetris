@@ -12,6 +12,9 @@ let gameSpeed = 1000;
 let gameInterval;
 let totalRowsDeleted = 0;
 
+let lockDelayActive = false;
+let lockDelayTimer = null;
+
 let coordinateArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
 );
@@ -247,6 +250,7 @@ function CheckForVerticalCollison() {
     let square = tetrominoCopy[i];
     let x = square[0] + startX;
     let y = square[1] + startY;
+    
     if (direction === DIRECTION.DOWN) {
       y++;
     }
@@ -266,21 +270,36 @@ function CheckForVerticalCollison() {
     if (startY <= 2) {
       gameOver = true;
       alert("Game Over");
-    } else {
-      for (let i = 0; i < tetrominoCopy.length; i++) {
-        let square = tetrominoCopy[i];
-        let x = square[0] + startX;
-        let y = square[1] + startY;
-        stoppedShapeArray[x][y] = curTetrominoColor;
-      }
-      CheckForCompletedRows();
-      CreateTetromino();
-      direction = DIRECTION.IDLE;
-      startX = 4;
-      startY = 0;
-      DrawTetromino();
+      return true;
+    }
+    if (!lockDelayActive) {
+      lockDelayActive = true;
+      lockDelayTimer = setTimeout(function() {
+        if (lockDelayActive) {
+          for (let i = 0; i < curTetromino.length; i++) {
+            let square = curTetromino[i];
+            let x = square[0] + startX;
+            let y = square[1] + startY;
+            stoppedShapeArray[x][y] = curTetrominoColor;
+          }
+          lockDelayActive = false;
+          CheckForCompletedRows();
+          CreateTetromino();
+          direction = DIRECTION.IDLE;
+          startX = 4;
+          startY = 0;
+          DrawTetromino();
+        }
+      }, 500);
+    }
+  } else {
+    if (lockDelayActive && direction === DIRECTION.DOWN) {
+      clearTimeout(lockDelayTimer);
+      lockDelayActive = false;
     }
   }
+  
+  return collision;
 }
 
 function CheckForHorizontalCollision() {
@@ -461,11 +480,27 @@ function DropTetromino() {
     }
     dropDistancePossible = potentialDrop;
   }
+  
   if (dropDistancePossible > 0) {
+    if (lockDelayActive) {
+      clearTimeout(lockDelayTimer);
+      lockDelayActive = false;
+    }
     DeleteTetromino();
     startY += dropDistancePossible;
     DrawTetromino();
-    PlaceTetromino();
+    for (let i = 0; i < curTetromino.length; i++) {
+      let square = curTetromino[i];
+      let x = square[0] + startX;
+      let y = square[1] + startY;
+      stoppedShapeArray[x][y] = curTetrominoColor;
+    }
+    CheckForCompletedRows();
+    CreateTetromino();
+    direction = DIRECTION.IDLE;
+    startX = 4;
+    startY = 0;
+    DrawTetromino();
   }
 }
 
