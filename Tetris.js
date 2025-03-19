@@ -111,7 +111,7 @@ function DrawTetromino() {
 }
 
 function HandleKeyPress(key) {
-  if (gameOver != true) {
+  if (gameOver == false) {
     if (key.keyCode === 65) {
       direction = DIRECTION.LEFT;
       if (!HittingTheWall() && !CheckForHorizontalCollision()) {
@@ -539,7 +539,7 @@ function SetGameInterval() {
     clearInterval(gameInterval);
   }
   gameInterval = window.setInterval(function () {
-    if (gameOver != true) {
+    if (gameOver == false) {
       MoveTetrominoDown();
     }
   }, gameSpeed);
