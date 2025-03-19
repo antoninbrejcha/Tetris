@@ -67,7 +67,7 @@ function CreateCoordArray() {
   let i = 0,
     j = 0;
   for (let y = 9; y <= 446; y += 23) {
-    for (let x = 11; x <= 264; x += 23) {
+    for (let x = 102; x <= 355; x += 23) {
       coordinateArray[i][j] = new Coordinates(x, y);
       i++;
     }
@@ -79,7 +79,7 @@ function CreateCoordArray() {
 function SetupCanvas() {
   canvas = document.getElementById("my-canvas");
   ctx = canvas.getContext("2d");
-  canvas.width = 936;
+  canvas.width = 956;
   canvas.height = 956;
 
   ctx.scale(2, 2);
@@ -629,9 +629,9 @@ function highlightTetrominoColumns() {
 
 function ClearingGameBoard() {
   ctx.fillStyle = "white";
-  ctx.fillRect(8, 8, 280, 462);
+  ctx.fillRect(99, 8, 280, 462);
   ctx.strokeStyle = "black";
-  ctx.strokeRect(8, 8, 280, 462);
+  ctx.strokeRect(99, 8, 280, 462);
   for (let x = 0; x < gBArrayWidth; x++) {
     for (let y = 0; y < gBArrayHeight; y++) {
       if (typeof stoppedShapeArray[x][y] === "string") {
@@ -645,7 +645,7 @@ function ClearingGameBoard() {
 
 function DrawGameBoard() {
   ctx.fillStyle = "white";
-  ctx.fillRect(8, 8, 280, 462);
+  ctx.fillRect(99, 8, 280, 462);
   ctx.strokeStyle = "black";
-  ctx.strokeRect(8, 8, 280, 462);
+  ctx.strokeRect(99, 8, 280, 462);
 }
