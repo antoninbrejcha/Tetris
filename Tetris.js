@@ -147,21 +147,29 @@ function SetupCanvas() {
   ctx.strokeStyle = "#815AC0";
   ctx.stroke();
 
-  let gradient = ctx.createLinearGradient(0, 0, 0, 250);
-  gradient.addColorStop(0, "#B185DB");
-  gradient.addColorStop(0.1, "#6247AA");
-  gradient.addColorStop(0.2, "#B185DB");
-  gradient.addColorStop(0.3, "#6247AA");
-  gradient.addColorStop(0.4, "#B185DB");
-  gradient.addColorStop(0.5, "#6247AA");
-  gradient.addColorStop(0.6, "#B185DB");
-  gradient.addColorStop(0.7, "#6247AA");
-  gradient.addColorStop(0.8, "#B185DB");
-  gradient.addColorStop(0.9, "#6247AA");
-  gradient.addColorStop(1, "#B185DB");
+  drawText(
+    ctx,
+    "LeVeL",
+    38,
+    0,
+    80,
+    "Tiny5",
+    ["#c19ee0", "#A06CD5", "#6247AA"],
+    0.65
+  );
+  drawText(
+    ctx,
+    "ScOrE",
+    450,
+    0,
+    80,
+    "Tiny5",
+    ["#c19ee0", "#A06CD5", "#6247AA"],
+    0.65
+  );
 
-  ctx.fillStyle = gradient;
-  drawVerticalStackedText(ctx, "LEVEL", 20, 20, 50, "Bytesized", 0.8);
+  drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
+  drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
 
   document.fonts.ready.then(() => {
     drawWithGoogleFont();
@@ -176,27 +184,80 @@ function SetupCanvas() {
   SetGameInterval();
 }
 
-function drawVerticalStackedText(
-  ctx,
-  text,
-  x,
-  y,
-  fontSize,
-  fontFamily,
-  lineHeight
-) {
+function drawText(ctx, text, x, y, fontSize, fontFamily, colors, lineHeight) {
   ctx.font = `${fontSize}px ${fontFamily}`;
   let characters = text.split("");
-  currentY = y;
+  let currentY = y;
+
   for (let i = 0; i < characters.length; i++) {
     let char = characters[i];
-    ctx.fillText(char, x, currentY);
+    let charWidth = ctx.measureText(char).width;
+
+    let centeredX = x - charWidth / 2;
+
+    let topHeight = fontSize * 0.35;
+    let middleHeight = fontSize * 0.2;
+    let bottomHeight = fontSize * 0.45;
+
+    let baselineY = currentY + fontSize * 0.8;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(centeredX, currentY, charWidth, topHeight);
+    ctx.clip();
+    ctx.fillStyle = colors[0];
+    ctx.fillText(char, centeredX, baselineY);
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(centeredX, currentY + topHeight, charWidth, middleHeight);
+    ctx.clip();
+    ctx.fillStyle = colors[1];
+    ctx.fillText(char, centeredX, baselineY);
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(
+      centeredX,
+      currentY + topHeight + middleHeight,
+      charWidth,
+      bottomHeight
+    );
+    ctx.clip();
+    ctx.fillStyle = colors[2];
+    ctx.fillText(char, centeredX, baselineY);
+    ctx.restore();
+
+    currentY += fontSize * lineHeight;
+  }
+}
+
+function drawScore(ctx, text, x, y, fontSize, fontFamily, lineHeight) {
+  ctx.font = `${fontSize}px ${fontFamily}`;
+  let textStr = text.toString();
+  let characters = textStr.split("");
+  let currentY = y;
+  for (let i = 0; i < characters.length; i++) {
+    let char = characters[i];
+    let charWidth = ctx.measureText(char).width;
+
+    let centeredX = x - charWidth / 2;
+    let baselineY = currentY + fontSize * 0.8;
+
+    ctx.fillStyle = "black";
+    ctx.fillRect(centeredX - 4, currentY, charWidth, fontSize);
+
+    ctx.fillStyle = "white";
+    ctx.fillText(char, centeredX, baselineY);
+
     currentY += fontSize * lineHeight;
   }
 }
 
 function DrawGameBoard() {
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "#F7FF99";
   ctx.fillRect(99, 8, 280, 462);
   ctx.strokeStyle = "black";
   ctx.lineWidth = 4;
@@ -264,7 +325,7 @@ function DeleteTetromino() {
 
     let coorX = coordinateArray[x][y].x;
     let coorY = coordinateArray[x][y].y;
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "#F7FF99";
     ctx.fillRect(coorX, coorY, 21, 21);
   }
 }
@@ -447,17 +508,19 @@ function CheckForCompletedRows() {
         gameBoardArray[i][y] = 0;
         let coorX = coordinateArray[i][y].x;
         let coorY = coordinateArray[i][y].y;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "#F7FF99";
         ctx.fillRect(coorX, coorY, 21, 21);
       }
     }
   }
   if (rowsToDelete > 0) {
     totalRowsDeleted += rowsToDelete;
-    console.log("Total rows deleted: " + totalRowsDeleted);
+    console.log(
+      "Total rows deleted: " + totalRowsDeleted + ", Score: " + score
+    );
     score += 10;
-    //display score
     MoveAllRowsDown(rowsToDelete, startOfDeletion);
+    drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
     UpdateGameSpeed();
   }
 }
@@ -484,7 +547,7 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
         stoppedShapeArray[x][i] = 0;
         coorX = coordinateArray[x][i].x;
         coorY = coordinateArray[x][i].y;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "#F7FF99";
         ctx.fillRect(coorX, coorY, 21, 21);
       }
     }
@@ -656,6 +719,9 @@ function ColoringTetromino(coorX, coorY, color) {
   let tetroColor = color || curTetrominoColor;
   ctx.fillStyle = tetroColor;
   ctx.fillRect(coorX, coorY, 21, 21);
+  ctx.fillStyle = "black";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(coorX, coorY, 21, 21);
 
   ctx.fillStyle = modifyHexColor(tetroColor, 15, 100);
   ctx.fillRect(coorX + 3, coorY + 3, 15, 15);
@@ -689,7 +755,7 @@ function UpdateGameSpeed() {
     level = newLevel;
     gameSpeed = Math.max(200, 1000 - (level - 1) * 50);
     console.log("Level: " + level + ", Speed: " + gameSpeed + "ms");
-    //display level
+    drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
     SetGameInterval();
   }
 }
