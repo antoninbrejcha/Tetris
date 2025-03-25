@@ -1,3 +1,9 @@
+// Import from game-ui.js
+import { showGameOver } from "./game-ui.js";
+
+// Make level accessible to other modules for scoring
+window.level = level;
+
 let canvas;
 let ctx;
 let gBArrayHeight = 20;
@@ -278,6 +284,9 @@ function DrawTetromino() {
 }
 
 function HandleKeyPress(key) {
+  if (window.gameState !== "game") {
+    return;
+  }
   if (gameOver == false) {
     if (key.keyCode === 65) {
       direction = DIRECTION.LEFT;
@@ -326,7 +335,7 @@ function DeleteTetromino() {
     let coorX = coordinateArray[x][y].x;
     let coorY = coordinateArray[x][y].y;
     ctx.fillStyle = "#F7FF99";
-    ctx.fillRect(coorX-1, coorY-1, 23, 23);
+    ctx.fillRect(coorX - 1, coorY - 1, 23, 23);
   }
 }
 
@@ -433,7 +442,7 @@ function CheckForVerticalCollison() {
   if (collision) {
     if (startY <= 2) {
       gameOver = true;
-      alert("Game Over");
+      showGameOver(score, level);
       return true;
     }
     if (!lockDelayActive) {
@@ -509,7 +518,7 @@ function CheckForCompletedRows() {
         let coorX = coordinateArray[i][y].x;
         let coorY = coordinateArray[i][y].y;
         ctx.fillStyle = "#F7FF99";
-        ctx.fillRect(coorX-1, coorY-1, 23, 23);
+        ctx.fillRect(coorX - 1, coorY - 1, 23, 23);
       }
     }
   }
@@ -548,7 +557,7 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
         coorX = coordinateArray[x][i].x;
         coorY = coordinateArray[x][i].y;
         ctx.fillStyle = "#F7FF99";
-        ctx.fillRect(coorX-1, coorY-1, 23, 23);
+        ctx.fillRect(coorX - 1, coorY - 1, 23, 23);
       }
     }
   }
@@ -743,7 +752,7 @@ function SetGameInterval() {
     clearInterval(gameInterval);
   }
   gameInterval = window.setInterval(function () {
-    if (gameOver == false) {
+    if (window.gameState === "game" && gameOver == false) {
       MoveTetrominoDown();
     }
   }, gameSpeed);
@@ -753,6 +762,7 @@ function UpdateGameSpeed() {
   let newLevel = Math.floor(score / 10) + 1;
   if (newLevel > level) {
     level = newLevel;
+    window.level = level;
     gameSpeed = Math.max(200, 1000 - (level - 1) * 30);
     console.log("Level: " + level + ", Speed: " + gameSpeed + "ms");
     drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
@@ -808,3 +818,46 @@ function ClearingGameBoard() {
     }
   }
 }
+
+// Function to reset the game
+function resetGame() {
+  // Clear game arrays
+  gameBoardArray = [...Array(20)].map((e) => Array(12).fill(0));
+  stoppedShapeArray = [...Array(20)].map((e) => Array(12).fill(0));
+
+  // Reset game variables
+  score = 0;
+  level = 1;
+  window.level = level; // Update global level for scoring
+  gameOver = false;
+  totalRowsDeleted = 0;
+  gameSpeed = 1000;
+  startX = 4;
+  startY = 0;
+  direction = DIRECTION.IDLE;
+
+  // Clear any existing lock delay
+  if (lockDelayActive) {
+    clearTimeout(lockDelayTimer);
+    lockDelayActive = false;
+  }
+
+  // Clear the canvas and redraw
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  DrawGameBoard();
+
+  // Reset UI elements
+  drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
+  drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
+
+  // Create new tetromino
+  CreateTetromino();
+  DrawTetromino();
+
+  // Reset game interval
+  SetGameInterval();
+}
+
+// Add this function to the window object so it can be accessed by game-ui.js
+window.resetGame = resetGame;

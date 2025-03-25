@@ -1,191 +1,402 @@
-
-#my-canvas{
-    background-color: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.24);
-    transform-origin: center;
+#my-canvas {
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.24);
+  transform-origin: center;
 }
 .gameboy {
-    position: relative;
-    width: 340px;
-    height: 540px;
-    /*background-color: #f3f3e7;*/
-    background-color: #99CC33;
-    border-radius: 15px 15px 50px 15px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -10px 10px 2px rgba(0, 0, 0, 0.1),
-      inset 10px -10px 0 rgba(0, 0, 0, 0.1), inset -10px 10px 0 rgba(0, 0, 0, 0.2);
-    margin-left: auto;
-    margin-right: auto;
-    transform: scale(2);
-    transform-origin: top center;
+  position: relative;
+  width: 340px;
+  height: 540px;
+  /*background-color: #f3f3e7;*/
+  background-color: #99cc33;
+  border-radius: 15px 15px 50px 15px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -10px 10px 2px rgba(0, 0, 0, 0.1),
+    inset 10px -10px 0 rgba(0, 0, 0, 0.1), inset -10px 10px 0 rgba(0, 0, 0, 0.2);
+  margin-left: auto;
+  margin-right: auto;
+  transform: scale(2);
+  transform-origin: top center;
+}
+.power-switch {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 15px;
+  background-color: #d0d0c5;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.power-switch p {
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+  font-size: 8px;
+  color: #555;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.screen-container {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 230px;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 5px;
+}
+.logo {
+  position: absolute;
+  top: 285px;
+  left: 40px;
+}
+.nintendo,
+.game-boy {
+  color: #003da5;
+  font-family: "Orbitron", sans-serif;
+}
+.nintendo {
+  position: absolute;
+  top: 288px;
+  left: 40px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.game-boy {
+  position: absolute;
+  top: 285px;
+  left: 100px;
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+}
+.controls {
+  position: absolute;
+  top: 330px;
+  left: 20px;
+}
+.dpad {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 330px;
+  left: 40px;
+}
+.dpad-button {
+  position: absolute;
+  background-color: #272727;
+  border-radius: 2px;
+  box-shadow: inset 3px 2px 0 rgba(210, 210, 210, 0.4),
+    inset -5px -3px 0 rgba(0, 0, 0, 0.7);
+}
+.dpad-center {
+  width: 26px;
+  height: 26px;
+  top: 27px;
+  left: 27px;
+  background-color: #333;
+  border-radius: 4px;
+}
+.dpad-up,
+.dpad-down {
+  width: 26px;
+  height: 26px;
+  left: 27px;
+}
+.dpad-down {
+  bottom: 0;
+}
+.dpad-left,
+.dpad-right {
+  width: 26px;
+  height: 26px;
+  top: 27px;
+}
+.dpad-right {
+  right: 0;
+}
+.action-buttons {
+  position: absolute;
+  top: 330px;
+  left: 210px;
+}
+.ab-buttons {
+  position: relative;
+  height: 35px;
+  width: 85px;
+}
+.button {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background-color: #ff0066;
+  border-radius: 50%;
+  box-shadow: inset 3px 3px 0 rgba(210, 210, 210, 0.4),
+    inset -3px -3px 0 rgba(0, 0, 0, 0.3);
+}
+.button:last-child {
+  right: 0;
+}
+.button-label {
+  position: absolute;
+  bottom: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #003da5;
+  font-family: "Orbitron", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.option-buttons {
+  position: absolute;
+  top: 440px;
+  left: 90px;
+  width: 100px;
+  height: 12px;
+}
+.option-button {
+  position: absolute;
+  width: 40px;
+  height: 12px;
+  background-color: #d0d0c5;
+  border-radius: 10px;
+  box-shadow: inset 3px 3px 0 rgba(150, 150, 150, 0.1),
+    inset -3px -3px 0 rgba(0, 0, 0, 0.3);
+}
+.option-button:last-child {
+  right: 0;
+}
+.option-label {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #003da5;
+  font-family: "Orbitron", sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.rotation {
+  rotate: -25deg;
+}
+
+.game-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 230px;
+  height: 210px;
+  background-color: #f7ff99;
+  border: 2px solid #333;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  font-family: "Tiny5", monospace;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.screen-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+}
+
+.menu-option {
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #d0d0c5;
+  border: 2px solid #333;
+  transition: background-color 0.2s;
+}
+
+.menu-option.selected {
+  background-color: #99cc33;
+  color: #000;
+  border-color: #000;
+}
+
+.form-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-field label {
+  font-size: 12px;
+  color: #333;
+}
+
+.game-input {
+  padding: 5px;
+  font-family: "Tiny5", monospace;
+  background-color: white;
+  border: 2px solid #333;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.game-button {
+  padding: 5px 10px;
+  font-family: "Tiny5", monospace;
+  background-color: #99cc33;
+  border: 2px solid #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 10px;
+}
+
+.game-button:hover {
+  background-color: #88bb22;
+}
+
+.error-message {
+  color: #d00000;
+  font-size: 10px;
+  margin-top: 5px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.leaderboard-container {
+  width: 90%;
+  height: 150px;
+  overflow-y: auto;
+  background-color: white;
+  border: 2px solid #333;
+  margin-bottom: 10px;
+}
+
+#leaderboard-list {
+  padding: 5px;
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 5px;
+  border-bottom: 1px solid #d0d0c5;
+  font-size: 10px;
+}
+
+.leaderboard-item:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+
+.leaderboard-rank {
+  width: 20px;
+}
+
+.leaderboard-name {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 5px;
+}
+
+.leaderboard-score {
+  width: 50px;
+  text-align: right;
+}
+
+.game-over-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.game-over-stats div {
+  font-size: 14px;
+  text-align: center;
+}
+
+#high-score-message {
+  color: #d00000;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.game-over-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.user-info {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 10px;
+  z-index: 30;
+  color: #333;
+}
+
+.user-score {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 10px;
+  z-index: 30;
+  color: #333;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #99cc33;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  .power-switch {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 15px;
-    background-color: #d0d0c5;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  100% {
+    transform: rotate(360deg);
   }
-  .power-switch p {
-    text-align: center;
-    font-family: "Orbitron", sans-serif;
-    font-size: 8px;
-    color: #555;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-  .screen-container {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 250px;
-    height: 230px;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 5px;
-  }
-  .logo {
-    position: absolute;
-    top: 285px;
-    left: 40px;
-  }
-  .nintendo,
-  .game-boy {
-    color: #003da5;
-    font-family: "Orbitron", sans-serif;
-  }
-  .nintendo {
-    position: absolute;
-    top: 288px;
-    left: 40px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  .game-boy {
-    position: absolute;
-    top: 285px;
-    left: 100px;
-    font-weight: 700;
-    font-style: italic;
-    text-transform: uppercase;
-  }
-  .controls {
-    position: absolute;
-    top: 330px;
-    left: 20px;
-  }
-  .dpad {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    top: 330px;
-    left: 40px;
-  }
-  .dpad-button {
-    position: absolute;
-    background-color: #272727;
-    border-radius: 2px;
-    box-shadow: inset 3px 2px 0 rgba(210, 210, 210, 0.4),
-      inset -5px -3px 0 rgba(0, 0, 0, 0.7);
-  }
-  .dpad-center {
-    width: 26px;
-    height: 26px;
-    top: 27px;
-    left: 27px;
-    background-color: #333;
-    border-radius: 4px;
-  }
-  .dpad-up,
-  .dpad-down {
-    width: 26px;
-    height: 26px;
-    left: 27px;
-  }
-  .dpad-down {
-    bottom: 0;
-  }
-  .dpad-left,
-  .dpad-right {
-    width: 26px;
-    height: 26px;
-    top: 27px;
-  }
-  .dpad-right {
-    right: 0;
-  }
-  .action-buttons {
-    position: absolute;
-    top: 330px;
-    left: 210px;
-  }
-  .ab-buttons {
-    position: relative;
-    height: 35px;
-    width: 85px;
-  }
-  .button {
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    background-color: #ff0066;
-    border-radius: 50%;
-    box-shadow: inset 3px 3px 0 rgba(210, 210, 210, 0.4),
-      inset -3px -3px 0 rgba(0, 0, 0, 0.3);
-  }
-  .button:last-child {
-    right: 0;
-  }
-  .button-label {
-    position: absolute;
-    bottom: -13px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #003da5;
-    font-family: "Orbitron", sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  .option-buttons {
-    position: absolute;
-    top: 440px;
-    left: 90px;
-    width: 100px;
-    height: 12px;
-  }
-  .option-button {
-    position: absolute;
-    width: 40px;
-    height: 12px;
-    background-color: #d0d0c5;
-    border-radius: 10px;
-    box-shadow: inset 3px 3px 0 rgba(150, 150, 150, 0.1),
-      inset -3px -3px 0 rgba(0, 0, 0, 0.3);
-  }
-  .option-button:last-child {
-    right: 0;
-  }
-  .option-label {
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #003da5;
-    font-family: "Orbitron", sans-serif;
-    font-size: 8px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  .rotation {
-    rotate: -25deg;
-  }  
+}
