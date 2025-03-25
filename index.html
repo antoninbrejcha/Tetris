@@ -29,7 +29,7 @@
       </div>
       <div class="screen-container">
         <canvas id="my-canvas"></canvas>
-
+        
         <!-- Game Screens -->
         <div id="start-screen" class="game-screen">
           <div class="screen-title">TETRIS</div>
@@ -39,7 +39,7 @@
             <div class="menu-option" data-action="login">LOGIN</div>
           </div>
         </div>
-
+        
         <div id="login-screen" class="game-screen hidden">
           <div class="screen-title">LOGIN</div>
           <div class="form-container">
@@ -53,14 +53,12 @@
             </div>
             <div class="form-buttons">
               <button id="login-button" class="game-button">LOGIN</button>
-              <button id="to-register-button" class="game-button">
-                REGISTER
-              </button>
+              <button id="to-register-button" class="game-button">REGISTER</button>
             </div>
             <div id="login-error" class="error-message"></div>
           </div>
         </div>
-
+        
         <div id="register-screen" class="game-screen hidden">
           <div class="screen-title">REGISTER</div>
           <div class="form-container">
@@ -74,22 +72,16 @@
             </div>
             <div class="form-field">
               <label>PASSWORD:</label>
-              <input
-                type="password"
-                id="register-password"
-                class="game-input"
-              />
+              <input type="password" id="register-password" class="game-input" />
             </div>
             <div class="form-buttons">
               <button id="register-button" class="game-button">REGISTER</button>
-              <button id="back-to-login-button" class="game-button">
-                BACK
-              </button>
+              <button id="back-to-login-button" class="game-button">BACK</button>
             </div>
             <div id="register-error" class="error-message"></div>
           </div>
         </div>
-
+        
         <div id="leaderboard-screen" class="game-screen hidden">
           <div class="screen-title">LEADERBOARD</div>
           <div class="leaderboard-container">
@@ -97,7 +89,7 @@
           </div>
           <button id="back-from-leaderboard" class="game-button">BACK</button>
         </div>
-
+        
         <div id="game-over-screen" class="game-screen hidden">
           <div class="screen-title">GAME OVER</div>
           <div class="game-over-stats">
@@ -106,14 +98,12 @@
             <div id="high-score-message"></div>
           </div>
           <div class="game-over-buttons">
-            <button id="play-again-button" class="game-button">
-              PLAY AGAIN
-            </button>
+            <button id="play-again-button" class="game-button">PLAY AGAIN</button>
             <button id="back-to-menu-button" class="game-button">MENU</button>
           </div>
         </div>
       </div>
-
+      
       <p class="nintendo">Nintendo</p>
       <p class="game-boy">Game Boy</p>
       <div class="dpad">
@@ -142,7 +132,7 @@
         </div>
       </div>
     </section>
-
+    
     <!-- Scripts with type="module" for ES modules support -->
     <script type="module" src="game-ui.js"></script>
     <script type="module" src="Tetris.js"></script>

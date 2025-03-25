@@ -762,7 +762,6 @@ function UpdateGameSpeed() {
   let newLevel = Math.floor(score / 10) + 1;
   if (newLevel > level) {
     level = newLevel;
-    window.level = level;
     gameSpeed = Math.max(200, 1000 - (level - 1) * 30);
     console.log("Level: " + level + ", Speed: " + gameSpeed + "ms");
     drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
@@ -824,7 +823,7 @@ function resetGame() {
   // Clear game arrays
   gameBoardArray = [...Array(20)].map((e) => Array(12).fill(0));
   stoppedShapeArray = [...Array(20)].map((e) => Array(12).fill(0));
-
+  
   // Reset game variables
   score = 0;
   level = 1;
@@ -835,26 +834,26 @@ function resetGame() {
   startX = 4;
   startY = 0;
   direction = DIRECTION.IDLE;
-
+  
   // Clear any existing lock delay
   if (lockDelayActive) {
     clearTimeout(lockDelayTimer);
     lockDelayActive = false;
   }
-
+  
   // Clear the canvas and redraw
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   DrawGameBoard();
-
+  
   // Reset UI elements
   drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
   drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
-
+  
   // Create new tetromino
   CreateTetromino();
   DrawTetromino();
-
+  
   // Reset game interval
   SetGameInterval();
 }
