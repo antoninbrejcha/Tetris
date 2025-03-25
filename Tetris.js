@@ -326,7 +326,7 @@ function DeleteTetromino() {
     let coorX = coordinateArray[x][y].x;
     let coorY = coordinateArray[x][y].y;
     ctx.fillStyle = "#F7FF99";
-    ctx.fillRect(coorX, coorY, 21, 21);
+    ctx.fillRect(coorX-1, coorY-1, 23, 23);
   }
 }
 
@@ -509,7 +509,7 @@ function CheckForCompletedRows() {
         let coorX = coordinateArray[i][y].x;
         let coorY = coordinateArray[i][y].y;
         ctx.fillStyle = "#F7FF99";
-        ctx.fillRect(coorX, coorY, 21, 21);
+        ctx.fillRect(coorX-1, coorY-1, 23, 23);
       }
     }
   }
@@ -518,7 +518,7 @@ function CheckForCompletedRows() {
     console.log(
       "Total rows deleted: " + totalRowsDeleted + ", Score: " + score
     );
-    score += 10;
+    score = totalRowsDeleted * 10;
     MoveAllRowsDown(rowsToDelete, startOfDeletion);
     drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
     UpdateGameSpeed();
@@ -548,7 +548,7 @@ function MoveAllRowsDown(rowsToDelete, startOfDeletion) {
         coorX = coordinateArray[x][i].x;
         coorY = coordinateArray[x][i].y;
         ctx.fillStyle = "#F7FF99";
-        ctx.fillRect(coorX, coorY, 21, 21);
+        ctx.fillRect(coorX-1, coorY-1, 23, 23);
       }
     }
   }
@@ -719,7 +719,7 @@ function ColoringTetromino(coorX, coorY, color) {
   let tetroColor = color || curTetrominoColor;
   ctx.fillStyle = tetroColor;
   ctx.fillRect(coorX, coorY, 21, 21);
-  ctx.fillStyle = "black";
+  ctx.strokeStyle = "black";
   ctx.lineWidth = 2;
   ctx.strokeRect(coorX, coorY, 21, 21);
 
@@ -753,7 +753,7 @@ function UpdateGameSpeed() {
   let newLevel = Math.floor(score / 10) + 1;
   if (newLevel > level) {
     level = newLevel;
-    gameSpeed = Math.max(200, 1000 - (level - 1) * 50);
+    gameSpeed = Math.max(200, 1000 - (level - 1) * 30);
     console.log("Level: " + level + ", Speed: " + gameSpeed + "ms");
     drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
     SetGameInterval();

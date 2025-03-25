@@ -310,7 +310,6 @@ function CheckForVerticalCollision() {
     if (direction === DIRECTION.DOWN) {
       y++;
     }
-    // Check if the tetromino has reached the bottom of the board
     if (y + 1 >= gBArrayHeight) {
       collison = true;
       break;
