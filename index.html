@@ -6,6 +6,7 @@
     <title>Tetris Game Boy</title>
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="Tetris.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,81 +30,7 @@
       </div>
       <div class="screen-container">
         <canvas id="my-canvas"></canvas>
-        
-        <!-- Game Screens -->
-        <div id="start-screen" class="game-screen">
-          <div class="screen-title">TETRIS</div>
-          <div class="menu-options">
-            <div class="menu-option selected" data-action="play">PLAY</div>
-            <div class="menu-option" data-action="leaderboard">LEADERBOARD</div>
-            <div class="menu-option" data-action="login">LOGIN</div>
-          </div>
-        </div>
-        
-        <div id="login-screen" class="game-screen hidden">
-          <div class="screen-title">LOGIN</div>
-          <div class="form-container">
-            <div class="form-field">
-              <label>EMAIL:</label>
-              <input type="email" id="login-email" class="game-input" />
-            </div>
-            <div class="form-field">
-              <label>PASSWORD:</label>
-              <input type="password" id="login-password" class="game-input" />
-            </div>
-            <div class="form-buttons">
-              <button id="login-button" class="game-button">LOGIN</button>
-              <button id="to-register-button" class="game-button">REGISTER</button>
-            </div>
-            <div id="login-error" class="error-message"></div>
-          </div>
-        </div>
-        
-        <div id="register-screen" class="game-screen hidden">
-          <div class="screen-title">REGISTER</div>
-          <div class="form-container">
-            <div class="form-field">
-              <label>USERNAME:</label>
-              <input type="text" id="register-username" class="game-input" />
-            </div>
-            <div class="form-field">
-              <label>EMAIL:</label>
-              <input type="email" id="register-email" class="game-input" />
-            </div>
-            <div class="form-field">
-              <label>PASSWORD:</label>
-              <input type="password" id="register-password" class="game-input" />
-            </div>
-            <div class="form-buttons">
-              <button id="register-button" class="game-button">REGISTER</button>
-              <button id="back-to-login-button" class="game-button">BACK</button>
-            </div>
-            <div id="register-error" class="error-message"></div>
-          </div>
-        </div>
-        
-        <div id="leaderboard-screen" class="game-screen hidden">
-          <div class="screen-title">LEADERBOARD</div>
-          <div class="leaderboard-container">
-            <div id="leaderboard-list"></div>
-          </div>
-          <button id="back-from-leaderboard" class="game-button">BACK</button>
-        </div>
-        
-        <div id="game-over-screen" class="game-screen hidden">
-          <div class="screen-title">GAME OVER</div>
-          <div class="game-over-stats">
-            <div id="final-score"></div>
-            <div id="final-level"></div>
-            <div id="high-score-message"></div>
-          </div>
-          <div class="game-over-buttons">
-            <button id="play-again-button" class="game-button">PLAY AGAIN</button>
-            <button id="back-to-menu-button" class="game-button">MENU</button>
-          </div>
-        </div>
       </div>
-      
       <p class="nintendo">Nintendo</p>
       <p class="game-boy">Game Boy</p>
       <div class="dpad">
@@ -132,9 +59,5 @@
         </div>
       </div>
     </section>
-    
-    <!-- Scripts with type="module" for ES modules support -->
-    <script type="module" src="game-ui.js"></script>
-    <script type="module" src="Tetris.js"></script>
   </body>
 </html>

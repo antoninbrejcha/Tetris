@@ -1,9 +1,3 @@
-// Import from game-ui.js
-import { showGameOver } from "./game-ui.js";
-
-// Make level accessible to other modules for scoring
-window.level = level;
-
 let canvas;
 let ctx;
 let gBArrayHeight = 20;
@@ -153,6 +147,21 @@ function SetupCanvas() {
   ctx.strokeStyle = "#815AC0";
   ctx.stroke();
 
+  drawWithGoogleFont();
+
+  drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
+  drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
+
+  document.addEventListener("keydown", HandleKeyPress);
+
+  CreateTetrominos();
+  CreateTetromino();
+  CreateCoordArray();
+  DrawTetromino();
+  SetGameInterval();
+}
+
+function drawWithGoogleFont() {
   drawText(
     ctx,
     "LeVeL",
@@ -173,21 +182,6 @@ function SetupCanvas() {
     ["#c19ee0", "#A06CD5", "#6247AA"],
     0.65
   );
-
-  drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
-  drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
-
-  document.fonts.ready.then(() => {
-    drawWithGoogleFont();
-  });
-
-  document.addEventListener("keydown", HandleKeyPress);
-
-  CreateTetrominos();
-  CreateTetromino();
-  CreateCoordArray();
-  DrawTetromino();
-  SetGameInterval();
 }
 
 function drawText(ctx, text, x, y, fontSize, fontFamily, colors, lineHeight) {
@@ -284,9 +278,6 @@ function DrawTetromino() {
 }
 
 function HandleKeyPress(key) {
-  if (window.gameState !== "game") {
-    return;
-  }
   if (gameOver == false) {
     if (key.keyCode === 65) {
       direction = DIRECTION.LEFT;
@@ -393,7 +384,7 @@ function CreateTetrominos() {
 
 function CreateTetromino() {
   let randomTetromino = Math.floor(Math.random() * tetrominos.length);
-  console.log("Selected tetromino index:", randomTetromino);
+  //console.log("Selected tetromino index:", randomTetromino);
   curTetromino = tetrominos[randomTetromino];
 
   let randomColor;
@@ -442,7 +433,7 @@ function CheckForVerticalCollison() {
   if (collision) {
     if (startY <= 2) {
       gameOver = true;
-      showGameOver(score, level);
+      alert("Game Over");
       return true;
     }
     if (!lockDelayActive) {
@@ -752,7 +743,7 @@ function SetGameInterval() {
     clearInterval(gameInterval);
   }
   gameInterval = window.setInterval(function () {
-    if (window.gameState === "game" && gameOver == false) {
+    if (gameOver == false) {
       MoveTetrominoDown();
     }
   }, gameSpeed);
@@ -817,46 +808,3 @@ function ClearingGameBoard() {
     }
   }
 }
-
-// Function to reset the game
-function resetGame() {
-  // Clear game arrays
-  gameBoardArray = [...Array(20)].map((e) => Array(12).fill(0));
-  stoppedShapeArray = [...Array(20)].map((e) => Array(12).fill(0));
-  
-  // Reset game variables
-  score = 0;
-  level = 1;
-  window.level = level; // Update global level for scoring
-  gameOver = false;
-  totalRowsDeleted = 0;
-  gameSpeed = 1000;
-  startX = 4;
-  startY = 0;
-  direction = DIRECTION.IDLE;
-  
-  // Clear any existing lock delay
-  if (lockDelayActive) {
-    clearTimeout(lockDelayTimer);
-    lockDelayActive = false;
-  }
-  
-  // Clear the canvas and redraw
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  DrawGameBoard();
-  
-  // Reset UI elements
-  drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
-  drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
-  
-  // Create new tetromino
-  CreateTetromino();
-  DrawTetromino();
-  
-  // Reset game interval
-  SetGameInterval();
-}
-
-// Add this function to the window object so it can be accessed by game-ui.js
-window.resetGame = resetGame;
