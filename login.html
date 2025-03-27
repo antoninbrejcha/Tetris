@@ -3,12 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tetris Game Boy</title>
+    <title>Login page</title>
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="Tetris.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="login.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
       rel="stylesheet"
@@ -29,7 +27,29 @@
         <p>On</p>
       </div>
       <div class="screen-container">
-        <canvas id="my-canvas"></canvas>
+        <main>
+          <div class="wrapper">
+            <form action="">
+              <h1>Login</h1>
+              <div class="input-box">
+                <input type="text" placeholder="Username" required />
+                <img src="icons/user (1).svg" alt="" class="icons" />
+              </div>
+              <div class="input-box">
+                <input type="password" placeholder="Password" required />
+                <img src="icons/lock (1).svg" alt="" class="icons" />
+              </div>
+
+              <div class="remember-me">
+                <label><input type="checkbox" />Remember me</label>
+              </div>
+              <button type="submit" class="login-button">Login</button>
+              <div class="register-link">
+                <p>Don't have an account? <a href="#">Register</a></p>
+              </div>
+            </form>
+          </div>
+        </main>
       </div>
       <p class="nintendo">Nintendo</p>
       <p class="game-boy">Game Boy</p>
@@ -59,6 +79,6 @@
         </div>
       </div>
     </section>
-    <a href="login.html">Click to open login page</a>
+    <a href="index.html">Click to play tetris</a>
   </body>
 </html>
