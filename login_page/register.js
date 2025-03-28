@@ -38,21 +38,20 @@ loginRegisterButton.addEventListener("click", function (event) {
 
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed up
-
       const user = userCredential.user;
       return setDoc(doc(db, "users", user.uid), {
         username: username,
         email: user.email,
         uid: user.uid,
+        highscore: 0,
       }).then(() => {
         alert("User registered successfully!");
+        window.location.href = "../profile/profile.html";
       });
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert(errorMessage);
-      // ..
     });
 });
