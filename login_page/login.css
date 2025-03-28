@@ -149,3 +149,20 @@ p {
 .register-login-link p a:hover {
   text-decoration: underline;
 }
+.see-password {
+  position: absolute;
+  right: 30px;
+  top: 132px;
+}
+.see-password p {
+  font-size: 6px;
+}
+.see-password p:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.see-password p:active {
+  color: #A06CD5;
+  font-weight: bold;
+  text-decoration: underline;
+}
