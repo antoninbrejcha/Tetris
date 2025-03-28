@@ -34,9 +34,25 @@
             <form action="">
               <h1>Register</h1>
               <div class="input-box">
-                <input type="text" placeholder="Username" required />
+                <input
+                  type="text"
+                  placeholder="Username"
+                  required
+                  id="username-field"
+                />
                 <img src="../icons/user (1).svg" alt="" class="icons" />
               </div>
+
+              <div class="input-box">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  required
+                  id="email-field"
+                />
+                <img src="../icons/email.svg" alt="" class="icons" />
+              </div>
+
               <div class="input-box">
                 <input
                   type="password"
@@ -51,7 +67,11 @@
                 <label><input type="checkbox" />Remember me</label>
               </div>
               <div class="see-password"><p>See password</p></div>
-              <button type="submit" class="login-register-button">
+              <button
+                type="submit"
+                class="login-register-button"
+                id="login-register-button-id"
+              >
                 <p>Register</p>
               </button>
               <div class="register-login-link">
@@ -89,5 +109,6 @@
         </div>
       </div>
     </section>
+    <script type="module" src="register.js"></script>
   </body>
 </html>

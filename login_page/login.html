@@ -33,11 +33,32 @@
             <form action="">
               <h1>Login</h1>
               <div class="input-box">
-                <input type="text" placeholder="Username" required />
+                <input
+                  type="text"
+                  placeholder="Username"
+                  required
+                  id="username-field"
+                />
                 <img src="../icons/user (1).svg" alt="" class="icons" />
               </div>
+
               <div class="input-box">
-                <input type="password" placeholder="Password" required id="password-field"/>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  required
+                  id="email-field"
+                />
+                <img src="../icons/email.svg" alt="" class="icons" />
+              </div>
+
+              <div class="input-box">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  required
+                  id="password-field"
+                />
                 <img src="../icons/lock (1).svg" alt="" class="icons" />
               </div>
 
@@ -45,7 +66,11 @@
                 <label><input type="checkbox" />Remember me</label>
               </div>
               <div class="see-password"><p>See password</p></div>
-              <button type="submit" class="login-register-button">
+              <button
+                type="submit"
+                class="login-register-button"
+                id="login-register-button-id"
+              >
                 <p>Login</p>
               </button>
               <div class="register-login-link">
@@ -86,5 +111,6 @@
       </div>
     </section>
     <a href="../game/index.html">Click to play tetris</a>
+    <script type="module" src="login.js"></script>
   </body>
 </html>
