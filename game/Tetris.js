@@ -1,3 +1,26 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+} from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyCCjbH0oI2ZWDt_15jHoEr-9LaebqcOrts",
+  authDomain: "tetris-ab2dc.firebaseapp.com",
+  projectId: "tetris-ab2dc",
+  storageBucket: "tetris-ab2dc.firebasestorage.app",
+  messagingSenderId: "435753979009",
+  appId: "1:435753979009:web:0b1da3daa7e3e85e9ad180",
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
 let canvas;
 let ctx;
 let gBArrayHeight = 20;
@@ -74,6 +97,30 @@ function CreateCoordArray() {
     j++;
     i = 0;
   }
+}
+
+function checkAndUpdateHighScore(currentScore) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userDocRef = doc(db, "users", user.uid);
+  getDoc(userDocRef)
+    .then((userDoc) => {
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const currentHighScore = userData.highscore || 0;
+
+        if (currentScore > currentHighScore) {
+          return updateDoc(userDocRef, { highscore: currentScore });
+        }
+      }
+    })
+    .then(() => {
+      console.log("High score updated!");
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 
 function SetupCanvas() {
@@ -433,6 +480,7 @@ function CheckForVerticalCollison() {
   if (collision) {
     if (startY <= 2) {
       gameOver = true;
+      checkAndUpdateHighScore(score);
       alert("Game Over");
       return true;
     }
