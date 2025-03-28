@@ -140,9 +140,11 @@ p {
   margin-top: 10px;
 }
 .register-login-link p a {
+  font-family: "Tiny5", sans-serif;
   color: white;
   text-decoration: none;
   font-weight: 600;
+  padding: 0px;
 }
 .register-login-link p a:hover {
   text-decoration: underline;

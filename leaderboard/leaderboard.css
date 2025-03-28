@@ -39,6 +39,7 @@ h1 {
   margin-bottom: 10px;
   border: 2px solid #815ac0;
   border-radius: 8px;
+  position: relative;
 }
 
 #leaderboard-table {
@@ -56,6 +57,7 @@ h1 {
   position: sticky;
   top: 0;
   background-color: black;
+  z-index: 2;
 }
 
 #leaderboard-table td {
@@ -63,6 +65,8 @@ h1 {
   padding: 4px;
   font-size: 11px;
   border-bottom: 1px solid #555;
+  position: relative;
+  overflow: visible;
 }
 
 #leaderboard-table tr:nth-child(even) {
@@ -222,6 +226,8 @@ button:hover {
   background-color: #6247aa;
   color: white;
   font-size: 15px;
+  position: relative;
+  z-index: 1;
 }
 .rank-number {
   text-align: center;

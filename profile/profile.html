@@ -28,20 +28,37 @@
         <p>Off</p>
         <p>On</p>
       </div>
+      <header>
+        <nav class="nav-bar">
+          <ul>
+            <li><a href="../game/index.html">Play</a></li>
+            <li><a href="../profile/profile.html">Profile</a></li>
+            <li><a href="../leaderboard/leaderboard.html">Leaderboard</a></li>
+          </ul>
+        </nav>
+      </header>
       <div class="screen-container">
         <main>
           <section>
-            <h1>Profile info:</h1>
-            <div>
-              <h2>Username: <span id="username"></span></h2>
+            <h1>Player Profile</h1>
+            <div class="loading-message" id="loading-message">
+              Loading profile...
             </div>
-            <div>
-              <h2>Email: <span id="email"></span></h2>
+            <div class="profile-container">
+              <div class="profile-info">
+                <h2>Username: <span id="username">-</span></h2>
+              </div>
+              <div class="profile-info">
+                <h2>Email: <span id="email">-</span></h2>
+              </div>
+              <div class="profile-info">
+                <h2>Highscore: <span id="highscore">0</span></h2>
+              </div>
             </div>
-            <div>
-              <h2>Highscore: <span id="highscore"></span></h2>
+            <div class="navigation-buttons">
+              <button id="back-button">Back</button>
+              <button id="logout-button">Logout</button>
             </div>
-            <button id="logout-button"><p>Logout</p></button>
           </section>
         </main>
       </div>
@@ -73,7 +90,10 @@
         </div>
       </div>
     </section>
-    <a href="../game/index.html">Clikc to play tetris</a>
+    <div class="navigation-links">
+      <a href="../game/index.html">Play Tetris</a>
+      <a href="../leaderboard/leaderboard.html">View Leaderboard</a>
+    </div>
     <script type="module" src="profile.js"></script>
   </body>
 </html>
