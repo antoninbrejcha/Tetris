@@ -1,9 +1,9 @@
-.remember-me {
-    display: none;
+.see-password {
+  top: 158px;
 }
-.login-register-button{
-    margin-top: 10px;
+.wrapper div:nth-child(4) {
+  margin-top: 5px;
 }
-.see-password{
-    top: 159px;
+h1{
+    font-size: 32px;
 }
