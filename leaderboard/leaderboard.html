@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tetris Game Boy</title>
+    <title>Tetris Leaderboard</title>
     <link rel="stylesheet" href="../reset.css" />
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="Tetris.js"></script>
+    <link rel="stylesheet" href="../game/styles.css" />
+    <link rel="stylesheet" href="leaderboard.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,7 +29,31 @@
         <p>On</p>
       </div>
       <div class="screen-container">
-        <canvas id="my-canvas"></canvas>
+        <main>
+          <div class="leaderboard-wrapper">
+            <h1>Top Players</h1>
+            <div class="leaderboard-container">
+              <table id="leaderboard-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                </tbody>
+              </table>
+            </div>
+            <div class="loading-message" id="loading-message">
+              Loading scores...
+            </div>
+            <div class="navigation-buttons">
+              <button id="refresh-button">Refresh</button>
+              <button id="back-button">Back</button>
+            </div>
+          </div>
+        </main>
       </div>
       <p class="nintendo">Nintendo</p>
       <p class="game-boy">Game Boy</p>
@@ -59,8 +83,10 @@
         </div>
       </div>
     </section>
-    <a href="../login_page/login.html">Click to open login page</a>
-    <a href="../profile/profile.html">Click to open profile page</a>
-    <a href="../leaderboard/leaderboard.html">Click to open leaderboard</a>
+    <div class="navigation-links">
+      <a href="../game/index.html">Play Tetris</a>
+      <a href="../profile/profile.html">View Profile</a>
+    </div>
+    <script type="module" src="leaderboard.js"></script>
   </body>
 </html>
