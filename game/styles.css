@@ -10,8 +10,7 @@
   position: relative;
   width: 340px;
   height: 540px;
-  background-color: #90E0EF;
-  /*background-color: #99cc33;*/
+  background-color: #DAC3E8;
   border-radius: 15px 15px 50px 15px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -10px 10px 2px rgba(0, 0, 0, 0.1),
     inset 10px -10px 0 rgba(0, 0, 0, 0.1), inset -10px 10px 0 rgba(0, 0, 0, 0.2);
@@ -27,7 +26,7 @@
   transform: translateX(-50%);
   width: 70px;
   height: 15px;
-  background-color: #d0d0c5;
+  background-color: #B185DB;
   border-radius: 5px;
   display: flex;
   justify-content: space-around;
@@ -37,7 +36,7 @@
   text-align: center;
   font-family: "Orbitron", sans-serif;
   font-size: 8px;
-  color: #555;
+  color: black;
   letter-spacing: 3px;
   text-transform: uppercase;
   font-weight: 700;
@@ -136,9 +135,9 @@
   position: absolute;
   width: 35px;
   height: 35px;
-  background-color: #FFE566;
+  background-color: #563F95;
   border-radius: 50%;
-  box-shadow: inset 3px 3px 0 rgba(210, 210, 210, 0.4),
+  box-shadow: inset 3px 3px 0 rgba(210, 210, 210, 0.15),
     inset -3px -3px 0 rgba(0, 0, 0, 0.3);
 }
 .button:last-child {
