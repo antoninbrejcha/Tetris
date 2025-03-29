@@ -33,7 +33,9 @@
         <nav class="nav-bar">
           <ul>
             <li><a href="../game/index.html">Play</a></li>
-            <li class="current"><a href="../profile/profile.html">Profile</a></li>
+            <li class="current">
+              <a href="../profile/profile.html">Profile</a>
+            </li>
             <li><a href="../leaderboard/leaderboard.html">Leaderboard</a></li>
             <li><a href="../controls/controls.html">Controls</a></li>
           </ul>
@@ -65,6 +67,7 @@
               </div>
 
               <div class="see-password"><p>See password</p></div>
+              <div id="status-message" class="status-message"></div>
               <button
                 type="submit"
                 class="login-register-button"
@@ -78,6 +81,11 @@
                 </p>
               </div>
             </form>
+          </div>
+          <div id="status-overlay" class="status-overlay">
+            <div class="status-content">
+              <p id="overlay-message">Logging in...</p>
+            </div>
           </div>
         </main>
       </div>

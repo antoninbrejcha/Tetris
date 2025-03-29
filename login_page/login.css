@@ -150,12 +150,14 @@ p {
   text-decoration: underline;
 }
 .see-password {
-  position: absolute;
-  right: 30px;
-  top: 142px;
+  position: relative;
+  text-align: right;
+  margin-top: 2px;
+  margin-right: 10px;
+  font-size: 6px;
 }
 .see-password p {
-  font-size: 6px;
+  display: inline-block;
 }
 .see-password p:hover {
   cursor: pointer;
@@ -163,7 +165,61 @@ p {
   font-size: 7px;
 }
 .see-password p:active {
-  color: #A06CD5;
+  color: #a06cd5;
   font-weight: bold;
   text-decoration: underline;
+}
+.status-message {
+  font-size: 12px;
+  color: #a06cd5;
+  text-align: center;
+  margin-top: 4px;
+  height: 16px;
+  font-family: "Tiny5", sans-serif;
+  display: none;
+}
+
+.status-message:not(:empty) {
+  display: block;
+}
+
+.status-message.error {
+  color: #ff6b6b;
+}
+
+.status-message.success {
+  color: #9ef01a;
+}
+
+.status-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.status-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.status-content {
+  text-align: center;
+  color: #815ac0;
+  font-family: "Tiny5", sans-serif;
+  padding: 20px;
+}
+
+#overlay-message {
+  font-size: 18px;
+  margin-bottom: 10px;
 }

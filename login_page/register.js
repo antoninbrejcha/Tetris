@@ -29,6 +29,34 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const loginRegisterButton = document.getElementById("login-register-button-id");
+const statusMessage = document.getElementById("status-message");
+const statusOverlay = document.getElementById("status-overlay");
+const overlayMessage = document.getElementById("overlay-message");
+
+// Function to show status message
+function showStatusMessage(message, type) {
+  statusMessage.textContent = message;
+  statusMessage.className = "status-message";
+
+  if (type) {
+    statusMessage.classList.add(type);
+  }
+
+  setTimeout(() => {
+    statusMessage.textContent = ""; // This is the important part
+  }, 5000);
+}
+
+// Function to show overlay
+function showOverlay(message) {
+  overlayMessage.textContent = message;
+  statusOverlay.classList.add("visible");
+}
+
+// Function to hide overlay
+function hideOverlay() {
+  statusOverlay.classList.remove("visible");
+}
 
 loginRegisterButton.addEventListener("click", function (event) {
   event.preventDefault();
@@ -36,22 +64,60 @@ loginRegisterButton.addEventListener("click", function (event) {
   const email = document.getElementById("email-field").value;
   const password = document.getElementById("password-field").value;
 
+  // Clear any existing status messages
+  statusMessage.textContent = "";
+
+  // Show overlay with loading message
+  showOverlay("Creating account...");
+
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+
+      // Update overlay message
+      overlayMessage.textContent = "Adding user details...";
+
       return setDoc(doc(db, "users", user.uid), {
         username: username,
         email: user.email,
         uid: user.uid,
         highscore: 0,
       }).then(() => {
-        alert("User registered successfully!");
-        window.location.href = "../profile/profile.html";
+        // Update overlay message for success
+        overlayMessage.textContent = "Registration successful!";
+
+        // Redirect after a short delay
+        setTimeout(() => {
+          window.location.href = "../profile/profile.html";
+        }, 1500);
       });
     })
     .catch((error) => {
+      // Hide the overlay
+      hideOverlay();
+
+      // Show inline error message
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert(errorMessage);
+
+      // Display user-friendly error messages
+      if (errorCode === "auth/email-already-in-use") {
+        showStatusMessage(
+          "Email already in use. Try logging in instead.",
+          "error"
+        );
+      } else if (errorCode === "auth/invalid-email") {
+        showStatusMessage(
+          "Invalid email format. Please check and try again.",
+          "error"
+        );
+      } else if (errorCode === "auth/weak-password") {
+        showStatusMessage(
+          "Password is too weak. Use at least 6 characters.",
+          "error"
+        );
+      } else {
+        showStatusMessage(errorMessage, "error");
+      }
     });
 });
