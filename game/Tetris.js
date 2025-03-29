@@ -465,18 +465,16 @@ function CheckForVerticalCollison() {
     if (direction === DIRECTION.DOWN) {
       y++;
     }
-    if (typeof stoppedShapeArray[x][y + 1] === "string") {
-      DeleteTetromino();
-      startY++;
-      DrawTetromino();
-      collision = true;
-      break;
-    }
     if (y >= 20) {
       collision = true;
       break;
     }
+    if (typeof stoppedShapeArray[x][y] === "string") {
+      collision = true;
+      break;
+    }
   }
+
   if (collision) {
     if (startY <= 2) {
       gameOver = true;
@@ -484,6 +482,7 @@ function CheckForVerticalCollison() {
       alert("Game Over");
       return true;
     }
+
     if (!lockDelayActive) {
       lockDelayActive = true;
       lockDelayTimer = setTimeout(function () {
