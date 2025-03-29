@@ -38,6 +38,10 @@ let totalRowsDeleted = 0;
 let lockDelayActive = false;
 let lockDelayTimer = null;
 
+let gameOverOverlay;
+let finalScoreElement;
+let restartButton;
+
 let coordinateArray = [...Array(gBArrayHeight)].map((e) =>
   Array(gBArrayWidth).fill(0)
 );
@@ -128,6 +132,14 @@ function SetupCanvas() {
   ctx = canvas.getContext("2d");
   canvas.width = 956;
   canvas.height = 956;
+
+  gameOverOverlay = document.getElementById("game-over-overlay");
+  finalScoreElement = document.getElementById("final-score");
+  restartButton = document.getElementById("restart-button");
+
+  if (restartButton) {
+    restartButton.addEventListener("click", RestartGame);
+  }
 
   ctx.scale(2, 2);
   ctx.fillStyle = "black";
@@ -479,7 +491,7 @@ function CheckForVerticalCollison() {
     if (startY <= 2) {
       gameOver = true;
       checkAndUpdateHighScore(score);
-      alert("Game Over");
+      ShowGameOverModal();
       return true;
     }
 
@@ -736,7 +748,7 @@ function PlaceTetromino() {
     let y = square[1] + startY;
     if (typeof stoppedShapeArray[x][y] === "string") {
       gameOver = true;
-      alert("Game Over");
+      ShowGameOverModal();
       break;
     }
   }
@@ -854,4 +866,29 @@ function ClearingGameBoard() {
       }
     }
   }
+}
+
+function ShowGameOverModal() {
+  if (gameOverOverlay && finalScoreElement) {
+    finalScoreElement.textContent = score;
+    gameOverOverlay.classList.add("visible");
+  }
+}
+function RestartGame() {
+  if (gameOverOverlay) {
+    gameOverOverlay.classList.remove("visible");
+  }
+  score = 0;
+  level = 1;
+  gameOver = false;
+  totalRowsDeleted = 0;
+  gameSpeed = 1000;
+  gameBoardArray = [...Array(20)].map((e) => Array(12).fill(0));
+  stoppedShapeArray = [...Array(20)].map((e) => Array(12).fill(0));
+  DrawGameBoard();
+  drawScore(ctx, level, 38, 285, 70, "Tiny5", 0.8);
+  drawScore(ctx, score, 450, 285, 70, "Tiny5", 0.8);
+  CreateTetromino();
+  DrawTetromino();
+  SetGameInterval();
 }

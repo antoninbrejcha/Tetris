@@ -1,7 +1,4 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -12,8 +9,6 @@ import {
   doc,
   setDoc,
 } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCCjbH0oI2ZWDt_15jHoEr-9LaebqcOrts",
   authDomain: "tetris-ab2dc.firebaseapp.com",
@@ -23,7 +18,6 @@ const firebaseConfig = {
   appId: "1:435753979009:web:0b1da3daa7e3e85e9ad180",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -33,7 +27,6 @@ const statusMessage = document.getElementById("status-message");
 const statusOverlay = document.getElementById("status-overlay");
 const overlayMessage = document.getElementById("overlay-message");
 
-// Function to show status message
 function showStatusMessage(message, type) {
   statusMessage.textContent = message;
   statusMessage.className = "status-message";
@@ -43,17 +36,15 @@ function showStatusMessage(message, type) {
   }
 
   setTimeout(() => {
-    statusMessage.textContent = ""; // This is the important part
+    statusMessage.textContent = "";
   }, 5000);
 }
 
-// Function to show overlay
 function showOverlay(message) {
   overlayMessage.textContent = message;
   statusOverlay.classList.add("visible");
 }
 
-// Function to hide overlay
 function hideOverlay() {
   statusOverlay.classList.remove("visible");
 }
@@ -64,17 +55,12 @@ loginRegisterButton.addEventListener("click", function (event) {
   const email = document.getElementById("email-field").value;
   const password = document.getElementById("password-field").value;
 
-  // Clear any existing status messages
   statusMessage.textContent = "";
-
-  // Show overlay with loading message
   showOverlay("Creating account...");
 
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-
-      // Update overlay message
       overlayMessage.textContent = "Adding user details...";
 
       return setDoc(doc(db, "users", user.uid), {
@@ -83,24 +69,17 @@ loginRegisterButton.addEventListener("click", function (event) {
         uid: user.uid,
         highscore: 0,
       }).then(() => {
-        // Update overlay message for success
         overlayMessage.textContent = "Registration successful!";
-
-        // Redirect after a short delay
         setTimeout(() => {
           window.location.href = "../profile/profile.html";
         }, 1500);
       });
     })
     .catch((error) => {
-      // Hide the overlay
       hideOverlay();
-
-      // Show inline error message
       const errorCode = error.code;
       const errorMessage = error.message;
 
-      // Display user-friendly error messages
       if (errorCode === "auth/email-already-in-use") {
         showStatusMessage(
           "Email already in use. Try logging in instead.",

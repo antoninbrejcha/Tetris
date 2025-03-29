@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../reset.css" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="Tetris.js"></script>
+    <link rel="stylesheet" href="game_over.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -40,6 +41,18 @@
       </header>
       <div class="screen-container">
         <canvas id="my-canvas"></canvas>
+        <div id="game-over-overlay" class="game-over-overlay">
+          <div class="game-over-content">
+            <div class="game-over-title">Game Over</div>
+            <div class="game-over-score">
+              <div class="game-over-score-label">Your score:</div>
+              <div id="final-score" class="game-over-score-value">0</div>
+            </div>
+            <button id="restart-button" class="game-over-button">
+              Restart
+            </button>
+          </div>
+        </div>
       </div>
       <p class="nintendo">Nintendo</p>
       <p class="game-boy">Game Boy</p>

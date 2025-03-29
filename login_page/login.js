@@ -19,7 +19,6 @@ const statusMessage = document.getElementById("status-message");
 const statusOverlay = document.getElementById("status-overlay");
 const overlayMessage = document.getElementById("overlay-message");
 
-// Function to show status message
 function showStatusMessage(message, type) {
   statusMessage.textContent = message;
   statusMessage.className = "status-message";
@@ -29,17 +28,15 @@ function showStatusMessage(message, type) {
   }
 
   setTimeout(() => {
-    statusMessage.textContent = ""; // This is the important part
+    statusMessage.textContent = "";
   }, 5000);
 }
 
-// Function to show overlay
 function showOverlay(message) {
   overlayMessage.textContent = message;
   statusOverlay.classList.add("visible");
 }
 
-// Function to hide overlay
 function hideOverlay() {
   statusOverlay.classList.remove("visible");
 }
@@ -50,10 +47,8 @@ loginRegisterButton.addEventListener("click", function (event) {
   const email = document.getElementById("email-field").value;
   const password = document.getElementById("password-field").value;
 
-  // Clear any existing status messages
   statusMessage.textContent = "";
 
-  // Show overlay with loading message
   showOverlay("Logging in...");
 
   signInWithEmailAndPassword(auth, email, password)
@@ -63,24 +58,15 @@ loginRegisterButton.addEventListener("click", function (event) {
         "user",
         JSON.stringify({ uid: user.uid, email: user.email })
       );
-
-      // Update overlay message
       overlayMessage.textContent = "Login successful!";
-
-      // Redirect after a short delay
       setTimeout(() => {
         window.location.href = "../game/index.html";
       }, 1500);
     })
     .catch((error) => {
-      // Hide the overlay
       hideOverlay();
-
-      // Show inline error message
       const errorCode = error.code;
       const errorMessage = error.message;
-
-      // Display user-friendly error messages
       if (errorCode === "auth/invalid-credential") {
         showStatusMessage(
           "Invalid email or password. Please try again.",

@@ -4,12 +4,12 @@
 .wrapper div:nth-child(4) {
   margin-top: 5px;
 }
-h1{
-    font-size: 32px;
+h1 {
+  font-size: 32px;
 }
 .wrapper .login-register-button {
   margin-top: 10px;
 }
-.status-message{
+.status-message {
   margin-top: 0px;
 }
