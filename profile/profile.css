@@ -125,21 +125,7 @@ button:hover {
   font-size: 12px;
   margin: 5px 0;
   color: #a06cd5;
-  animation: pulse 2s infinite;
 }
-
-@keyframes pulse {
-  0% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.7;
-  }
-}
-
 .navigation-links {
   margin-top: 20px;
   text-align: center;
@@ -157,35 +143,4 @@ button:hover {
 .navigation-links a:hover {
   text-decoration: underline;
   color: #6247aa;
-}
-
-.highscore-badge {
-  display: inline-block;
-  padding: 2px 6px;
-  background-color: #6247aa;
-  color: white;
-  font-size: 11px;
-  margin-left: 5px;
-  clip-path: polygon(
-    0% 4px,
-    2px 4px,
-    2px 2px,
-    4px 2px,
-    4px 0%,
-    calc(100% - 4px) 0%,
-    calc(100% - 4px) 2px,
-    calc(100% - 2px) 2px,
-    calc(100% - 2px) 4px,
-    100% 4px,
-    100% calc(100% - 4px),
-    calc(100% - 2px) calc(100% - 4px),
-    calc(100% - 2px) calc(100% - 2px),
-    calc(100% - 4px) calc(100% - 2px),
-    calc(100% - 4px) 100%,
-    4px 100%,
-    4px calc(100% - 2px),
-    2px calc(100% - 2px),
-    2px calc(100% - 4px),
-    0% calc(100% - 4px)
-  );
 }

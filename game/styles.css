@@ -10,7 +10,7 @@
   position: relative;
   width: 340px;
   height: 540px;
-  background-color: #DAC3E8;
+  background-color: #dac3e8;
   border-radius: 15px 15px 50px 15px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -10px 10px 2px rgba(0, 0, 0, 0.1),
     inset 10px -10px 0 rgba(0, 0, 0, 0.1), inset -10px 10px 0 rgba(0, 0, 0, 0.2);
@@ -26,7 +26,7 @@
   transform: translateX(-50%);
   width: 70px;
   height: 15px;
-  background-color: #B185DB;
+  background-color: #b185db;
   border-radius: 5px;
   display: flex;
   justify-content: space-around;
@@ -135,7 +135,7 @@
   position: absolute;
   width: 35px;
   height: 35px;
-  background-color: #563F95;
+  background-color: #563f95;
   border-radius: 50%;
   box-shadow: inset 3px 3px 0 rgba(210, 210, 210, 0.15),
     inset -3px -3px 0 rgba(0, 0, 0, 0.3);
@@ -187,35 +187,56 @@
 .rotation {
   rotate: -25deg;
 }
-header{
+header {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 33px;
+  top: 33.5px;
+  z-index: 1;
 }
-ul{
+
+.nav-bar ul {
   display: flex;
   flex-direction: row;
-  width: 220px;
+  width: 218px;
   justify-content: space-between;
 }
-a{
-  text-decoration: none;
-}
-li{
+
+.nav-bar li {
   width: auto;
   display: flex;
   justify-content: center;
-  border: 2px solid rgb(0, 0, 0, 0.5);
-  border-radius: 3px;
-  background-color: rgb(150, 150, 150, 0.7);
-  box-shadow: inset 1px 1px 0 rgba(150, 150, 150, 0.8),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.3);
+  background-color: #815ac0;
+  border: none;
+  border-radius: 4px;
+  box-shadow: inset 3px 3px 0 rgba(210, 210, 210, 0.15),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.3);
 }
-a{
+
+.nav-bar li:hover {
+  background-color: #9370db;
+}
+
+.nav-bar li:active,
+.nav-bar li.active {
+  top: 2px;
+  background-color: #6247aa;
+  box-shadow: 0 0 0 #472a75, inset 1px 1px 0 rgba(0, 0, 0, 0.2),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.nav-bar a {
+  text-decoration: none;
   font-family: "Orbitron", sans-serif;
   font-size: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #003da5;
+  font-weight: bold;
+  padding: 4px 8px;
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+.nav-bar li.current {
+  background-color: #6247aa;
+  box-shadow: 0 0 0 #472a75, inset 1px 1px 0 rgba(0, 0, 0, 0.3),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+  top: 2px;
 }

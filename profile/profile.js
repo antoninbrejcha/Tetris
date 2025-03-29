@@ -44,7 +44,6 @@ function loadUserProfile() {
             emailElement.textContent = userData.email;
 
             const highscore = userData.highscore || 0;
-            highscoreElement.innerHTML = `${highscore} <span class="highscore-badge">PTS</span>`;
 
             highscoreElement.style.animation = "pulse 1s";
             setTimeout(() => {
