@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register page</title>
+    <title>Tetris Game Boy</title>
     <link rel="stylesheet" href="../reset.css" />
     <link rel="stylesheet" href="../game/styles.css" />
-    <link rel="stylesheet" href="login.css" />
-    <link rel="stylesheet" href="register.css" />
-    <script src="see_password.js"></script>
+    <link rel="stylesheet" href="controls.css" />
+    <script src="controls.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,58 +35,40 @@
             <li><a href="../game/index.html">Play</a></li>
             <li><a href="../profile/profile.html">Profile</a></li>
             <li><a href="../leaderboard/leaderboard.html">Leaderboard</a></li>
-            <li><a href="../controls/controls.html">Controls</a></li>
+            <li><a href="controls.html">Controls</a></li>
           </ul>
         </nav>
       </header>
       <div class="screen-container">
         <main>
-          <div class="wrapper">
-            <form action="">
-              <h1>Create account</h1>
-              <div class="input-box">
-                <input
-                  type="text"
-                  placeholder="Username"
-                  required
-                  id="username-field"
-                />
-                <img src="../icons/user (1).svg" alt="" class="icons" />
+          <section>
+            <h1>Controls</h1>
+            <div class="controls-container">
+              <div>
+                <p>Left:</p>
+                <p>A key</p>
               </div>
-
-              <div class="input-box">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  required
-                  id="email-field"
-                />
-                <img src="../icons/email.svg" alt="" class="icons" />
+              <div>
+                <p>Right:</p>
+                <p>D key</p>
               </div>
-
-              <div class="input-box">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  required
-                  id="password-field"
-                />
-                <img src="../icons/lock (1).svg" alt="" class="icons" />
+              <div>
+                <p>Down:</p>
+                <p>S key</p>
               </div>
-
-              <div class="see-password"><p>See password</p></div>
-              <button
-                type="submit"
-                class="login-register-button"
-                id="login-register-button-id"
-              >
-                <p>Register</p>
-              </button>
-              <div class="register-login-link">
-                <p>Already have an account? <a href="login.html">Login</a></p>
+              <div>
+                <p>Rotate:</p>
+                <p>E key</p>
               </div>
-            </form>
-          </div>
+              <div>
+                <p>Drop:</p>
+                <p>Spacebar</p>
+              </div>
+            </div>
+            <div class="navigation-buttons">
+              <button id="back-button">Back</button>
+            </div>
+          </section>
         </main>
       </div>
       <p class="nintendo">Nintendo</p>
@@ -118,6 +99,5 @@
         </div>
       </div>
     </section>
-    <script type="module" src="register.js"></script>
   </body>
 </html>
