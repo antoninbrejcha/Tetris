@@ -5,3 +5,4 @@
 /leaderboard/* /leaderboard/:splat 200
 /icons/* /icons/:splat 200
 /login_page/* /login_page/:splat 200
+/*.js /game/:splat 200
