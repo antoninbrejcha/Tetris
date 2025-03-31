@@ -44,6 +44,7 @@ function loadUserProfile() {
             emailElement.textContent = userData.email;
 
             const highscore = userData.highscore || 0;
+            highscoreElement.textContent = highscore;
 
             highscoreElement.style.animation = "pulse 1s";
             setTimeout(() => {
