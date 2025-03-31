@@ -1,1 +1,7 @@
 /* /game/index.html 200
+/game/* /game/:splat 200
+/controls/* /controls/:splat 200
+/profile/* /profile/:splat 200
+/leaderboard/* /leaderboard/:splat 200
+/icons/* /icons/:splat 200
+/login_page/* /login_page/:splat 200
